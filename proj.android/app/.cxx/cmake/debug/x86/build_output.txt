@@ -1,0 +1,24 @@
+-- Check for working C compiler: C:/Users/agpal/AppData/Local/Android/Sdk/ndk/20.1.5948944/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe
+-- Check for working C compiler: C:/Users/agpal/AppData/Local/Android/Sdk/ndk/20.1.5948944/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: C:/Users/agpal/AppData/Local/Android/Sdk/ndk/20.1.5948944/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe
+-- Check for working CXX compiler: C:/Users/agpal/AppData/Local/Android/Sdk/ndk/20.1.5948944/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- using toolchain file:C:/Users/agpal/AppData/Local/Android/Sdk/ndk/20.1.5948944/build/cmake/android.toolchain.cmake
+-- PROJECT_NAME:CyberAdvanced
+-- PROJECT_SOURCE_DIR:D:/Cocos2d/CyberAdvanced
+-- COCOS2DX_ROOT_PATH:D:/Cocos2d/CyberAdvanced/cocos2d
+-- CMAKE_MODULE_PATH:D:/Cocos2d/CyberAdvanced/cocos2d/cmake/Modules/
+-- PROJECT_BINARY_DIR:D:/Cocos2d/CyberAdvanced/proj.android/app/.cxx/cmake/debug/x86
+-- ENGINE_BINARY_PATH:D:/Cocos2d/CyberAdvanced/proj.android/app/.cxx/cmake/debug/x86/engine
+-- CMAKE_GENERATOR: Ninja
+-- CMAKE_BUILD_TYPE: Debug
+-- Configuring done
+-- Generating done
+-- Build files have been written to: D:/Cocos2d/CyberAdvanced/proj.android/app/.cxx/cmake/debug/x86

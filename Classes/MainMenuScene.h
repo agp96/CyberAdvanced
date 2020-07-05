@@ -21,6 +21,7 @@ public:
 
 private:
     void GoToGameScene( cocos2d::Ref *sender );
+    void GoToGameScene2();
     void GoToOptionsScene( cocos2d::Ref *sender );
     void menuCloseCallback( cocos2d::Ref *sender );
 

@@ -7,6 +7,15 @@
 #include "cocos2d.h"
 USING_NS_CC;
 
+enum TileGID {
+    valley=1,
+    road=4,
+    tree=2,
+    mountain=3,
+    house=5,
+    river=18,
+    bridge=17
+};
 
 class TiledMapHelper: public Ref {
 
@@ -24,6 +33,7 @@ public:
 
     TMXTiledMap *getTiledMap();
     TMXLayer *getMainLayer();
+    bool isTileCoordInMap(cocos2d::Point tileCoord);
 
     CREATE_FUNC(TiledMapHelper);
 

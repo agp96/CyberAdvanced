@@ -37,7 +37,11 @@ public:
     int getLife();
     void setLife(const int& newLife);
 
+    void setLifeLabel(const int& newLife);
+
     float getDamage(const int& character);
+
+    int getRange();
 
     Texture2D* getCharacterSprite();
 
@@ -54,6 +58,7 @@ protected:
     Label *labelLife;
     int life = 100;
     float damage[5];
+    int range;
 
     Vec2 pos;
 

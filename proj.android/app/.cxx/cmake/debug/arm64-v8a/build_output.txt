@@ -1,0 +1,12 @@
+-- using toolchain file:C:\Users\agpal\AppData\Local\Android\Sdk\ndk\20.1.5948944\build\cmake\android.toolchain.cmake
+-- PROJECT_NAME:CyberAdvanced
+-- PROJECT_SOURCE_DIR:D:/Cocos2d/CyberAdvanced
+-- COCOS2DX_ROOT_PATH:D:/Cocos2d/CyberAdvanced/cocos2d
+-- CMAKE_MODULE_PATH:D:/Cocos2d/CyberAdvanced/cocos2d/cmake/Modules/
+-- PROJECT_BINARY_DIR:D:/Cocos2d/CyberAdvanced/proj.android/app/.cxx/cmake/debug/arm64-v8a
+-- ENGINE_BINARY_PATH:D:/Cocos2d/CyberAdvanced/proj.android/app/.cxx/cmake/debug/arm64-v8a/engine
+-- CMAKE_GENERATOR: Ninja
+-- CMAKE_BUILD_TYPE: Debug
+-- Configuring done
+-- Generating done
+-- Build files have been written to: D:/Cocos2d/CyberAdvanced/proj.android/app/.cxx/cmake/debug/arm64-v8a

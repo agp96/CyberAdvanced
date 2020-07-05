@@ -45,24 +45,32 @@ bool MainMenuScene::init()
 
     auto cielo = LayerGradient::create(Color4B(100,100,255,255),Color4B(0,0,100,255));
     cielo->setContentSize(Size(3392+500, visibleSize.height/2+200));
-    cielo->setPosition(-500,visibleSize.height/2-102);
+    cielo->setPosition(-500,visibleSize.height/2-170);
 
     this->addChild( cielo );
 
-    MenuItemFont::setFontName( "Retro Gaming" );
-    MenuItemFont::setFontSize( SCORE_FONT_SIZE );
+    auto labelStart = Label::createWithBMFont("fonts/BMJapan.fnt",
+                                              "PLAY");
+    auto playItem = MenuItemLabel::create(labelStart,
+                                           CC_CALLBACK_1(MainMenuScene::GoToGameScene, this));
+    playItem->setScale(0.5f);
 
-    auto playItem = MenuItemFont::create("Play", CC_CALLBACK_1(MainMenuScene::GoToGameScene, this));
-    playItem->setPosition( Point( visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y ) );
+    auto labelOptions = Label::createWithBMFont("fonts/BMJapan.fnt",
+                                              "OPTIONS");
+    auto optionsItem = MenuItemLabel::create(labelOptions,
+                                          CC_CALLBACK_1(MainMenuScene::GoToOptionsScene, this));
+    optionsItem->setScale(0.5f);
 
-    auto optionsItem = MenuItemFont::create("Options", CC_CALLBACK_1(MainMenuScene::GoToOptionsScene, this));
-    optionsItem->setPosition( Point( visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y - 20) );
-
-    auto exitItem = MenuItemFont::create("Exit", CC_CALLBACK_1(MainMenuScene::menuCloseCallback, this));
-    exitItem->setPosition( Point( visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y - 40) );
+    auto labelExit = Label::createWithBMFont("fonts/BMJapan.fnt",
+                                              "EXIT");
+    auto exitItem = MenuItemLabel::create(labelExit,
+                                          CC_CALLBACK_1(MainMenuScene::menuCloseCallback, this));
+    exitItem->setScale(0.5f);
 
     auto menu = Menu::create( playItem, optionsItem, exitItem, NULL );
-    menu->setPosition( Point::ZERO );
+    menu->alignItemsVertically();
+    menu->setPosition(origin.x + visibleSize.width*0.5,
+                      origin.y + visibleSize.height*0.5);
 
     this->addChild( menu );
 
@@ -70,6 +78,13 @@ bool MainMenuScene::init()
 }
 
 void MainMenuScene::GoToGameScene( cocos2d::Ref *sender )
+{
+    auto scene = MapManager::createScene();
+
+    Director::getInstance( )->replaceScene( TransitionFade::create( TRANSITION_TIME, scene ) );
+}
+
+void MainMenuScene::GoToGameScene2()
 {
     auto scene = MapManager::createScene();
 

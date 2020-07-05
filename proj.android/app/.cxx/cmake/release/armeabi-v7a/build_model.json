@@ -1,0 +1,78 @@
+{
+  "variant": {
+    "module": {
+      "rootBuildGradleFolder": "D:\\Cocos2d\\CyberAdvanced\\proj.android",
+      "sdkFolder": "C:\\Users\\agpal\\AppData\\Local\\Android\\Sdk",
+      "isNativeCompilerSettingsCacheEnabled": false,
+      "isBuildOnlyTargetAbiEnabled": true,
+      "splitsAbiFilterSet": [],
+      "intermediatesFolder": "D:\\Cocos2d\\CyberAdvanced\\proj.android\\app\\build\\intermediates",
+      "gradleModulePathName": ":CyberAdvanced",
+      "moduleRootFolder": "D:\\Cocos2d\\CyberAdvanced\\proj.android\\app",
+      "makeFile": "D:\\Cocos2d\\CyberAdvanced\\CMakeLists.txt",
+      "buildSystem": "CMAKE",
+      "compilerSettingsCacheFolder": "D:\\Cocos2d\\CyberAdvanced\\proj.android\\.cxx",
+      "cxxFolder": "D:\\Cocos2d\\CyberAdvanced\\proj.android\\app\\.cxx",
+      "ndkFolder": "C:\\Users\\agpal\\AppData\\Local\\Android\\Sdk\\ndk\\20.1.5948944",
+      "ndkVersion": "20.1.5948944",
+      "ndkSupportedAbiList": [
+        "ARMEABI_V7A",
+        "ARM64_V8A",
+        "X86",
+        "X86_64"
+      ],
+      "ndkDefaultAbiList": [
+        "ARMEABI_V7A",
+        "ARM64_V8A",
+        "X86",
+        "X86_64"
+      ],
+      "cmakeToolchainFile": "."
+    },
+    "buildSystemArgumentList": [
+      "-DCMAKE_FIND_ROOT_PATH\u003d",
+      "-DANDROID_STL\u003dc++_static",
+      "-DANDROID_TOOLCHAIN\u003dclang",
+      "-DANDROID_ARM_NEON\u003dTRUE"
+    ],
+    "cFlagList": [],
+    "cppFlagsList": [
+      "-frtti -fexceptions -fsigned-char"
+    ],
+    "variantName": "release",
+    "soFolder": "D:\\Cocos2d\\CyberAdvanced\\proj.android\\app\\build\\intermediates\\cmake\\release\\lib",
+    "objFolder": "D:\\Cocos2d\\CyberAdvanced\\proj.android\\app\\build\\intermediates\\cmake\\release\\obj",
+    "jsonFolder": "D:\\Cocos2d\\CyberAdvanced\\proj.android\\app\\.cxx\\cmake\\release",
+    "gradleBuildOutputFolder": "D:\\Cocos2d\\CyberAdvanced\\proj.android\\app\\.cxx\\cxx\\release",
+    "isDebuggableEnabled": false,
+    "validAbiList": [
+      "ARMEABI_V7A",
+      "ARM64_V8A",
+      "X86"
+    ],
+    "buildTargetSet": [
+      "MyGame"
+    ]
+  },
+  "abi": "ARMEABI_V7A",
+  "abiPlatformVersion": 16,
+  "cxxBuildFolder": "D:\\Cocos2d\\CyberAdvanced\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a",
+  "jsonFile": "D:\\Cocos2d\\CyberAdvanced\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\android_gradle_build.json",
+  "gradleBuildOutputFolder": "D:\\Cocos2d\\CyberAdvanced\\proj.android\\app\\.cxx\\cxx\\release\\armeabi-v7a",
+  "objFolder": "D:\\Cocos2d\\CyberAdvanced\\proj.android\\app\\build\\intermediates\\cmake\\release\\obj\\armeabi-v7a",
+  "buildCommandFile": "D:\\Cocos2d\\CyberAdvanced\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\build_command.txt",
+  "buildOutputFile": "D:\\Cocos2d\\CyberAdvanced\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\build_output.txt",
+  "modelOutputFile": "D:\\Cocos2d\\CyberAdvanced\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\build_model.json",
+  "cmake": {
+    "cmakeListsWrapperFile": "D:\\Cocos2d\\CyberAdvanced\\proj.android\\app\\.cxx\\cxx\\release\\armeabi-v7a\\CMakeLists.txt",
+    "toolchainWrapperFile": "D:\\Cocos2d\\CyberAdvanced\\proj.android\\app\\.cxx\\cxx\\release\\armeabi-v7a\\android_gradle_build.toolchain.cmake",
+    "buildGenerationStateFile": "D:\\Cocos2d\\CyberAdvanced\\proj.android\\app\\.cxx\\cxx\\release\\armeabi-v7a\\build_generation_state.json",
+    "cacheKeyFile": "D:\\Cocos2d\\CyberAdvanced\\proj.android\\app\\.cxx\\cxx\\release\\armeabi-v7a\\compiler_cache_key.json",
+    "compilerCacheUseFile": "D:\\Cocos2d\\CyberAdvanced\\proj.android\\app\\.cxx\\cxx\\release\\armeabi-v7a\\compiler_cache_use.json",
+    "compilerCacheWriteFile": "D:\\Cocos2d\\CyberAdvanced\\proj.android\\app\\.cxx\\cxx\\release\\armeabi-v7a\\compiler_cache_write.json",
+    "toolchainSettingsFromCacheFile": "D:\\Cocos2d\\CyberAdvanced\\proj.android\\app\\.cxx\\cxx\\release\\armeabi-v7a\\compiler_settings_cache.cmake",
+    "cmakeWrappingBaseFolder": "."
+  },
+  "jsonGenerationLoggingRecordFile": "D:\\Cocos2d\\CyberAdvanced\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\json_generation_record.json",
+  "compileCommandsJsonFile": "D:\\Cocos2d\\CyberAdvanced\\proj.android\\app\\.cxx\\cmake\\release\\armeabi-v7a\\compile_commands.json"
+}

@@ -25,6 +25,9 @@ public:
     Texture2D* getTileAt(const Point &tileCoords);
     Size getTileSize();
 
+    void changeTiles(const Vec2 &posPlayer, const Vec2 charactersPos[2][5], const int &type, const int &range);
+    void initialTiles();
+
 
 private:
     TiledMapHelper *m_tiledMapHelper;

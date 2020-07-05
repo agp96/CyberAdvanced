@@ -33,15 +33,16 @@ bool CreditsScene::init()
 
     auto cielo = LayerGradient::create(Color4B(100,100,255,255),Color4B(0,0,100,255));
     cielo->setContentSize(Size(3392+500, visibleSize.height/2+200));
-    cielo->setPosition(-500,visibleSize.height/2-102);
+    cielo->setPosition(-500,visibleSize.height/2-170);
 
     this->addChild( cielo );
 
-    MenuItemFont::setFontName( "Retro Gaming" );
-    MenuItemFont::setFontSize( SCORE_FONT_SIZE );
-
-    auto returnItem = MenuItemFont::create("Return", CC_CALLBACK_1(CreditsScene::GoToOptionsMenuScene, this));
-    returnItem->setPosition( Point( visibleSize.width / 12 + origin.x , visibleSize.height / 2 + origin.y - 100) );
+    auto labelReturn = Label::createWithBMFont("fonts/BMJapan.fnt",
+                                             "RETURN");
+    auto returnItem = MenuItemLabel::create(labelReturn,
+                                          CC_CALLBACK_1(CreditsScene::GoToOptionsMenuScene, this));
+    returnItem->setScale(0.5f);
+    returnItem->setPosition( Point( visibleSize.width / 12 + origin.x , visibleSize.height / 2 + origin.y - 140) );
 
     auto menu = Menu::create( returnItem, NULL );
     menu->setPosition( Point::ZERO );

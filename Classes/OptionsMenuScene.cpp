@@ -42,32 +42,35 @@ bool OptionsMenuScene::init()
     backgroundSprite->setPosition( Point( visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y ) );
 
     this->addChild( backgroundSprite );
-    cocos2d::log("something5 %f", backgroundSprite->getBoundingBox().size.width);
-    cocos2d::log("something5 %f", backgroundSprite->getCenterRect().size.width);
-    cocos2d::log("something5 %f", backgroundSprite->getContentSize().width);
-    cocos2d::log("something5 %f", backgroundSprite->getContentSize().height);
 
     auto cielo = LayerGradient::create(Color4B(100,100,255,255),Color4B(0,0,100,255));
     cielo->setContentSize(Size(3392+500, visibleSize.height/2+200));
-    cielo->setPosition(-500,visibleSize.height/2-102);
+    cielo->setPosition(-500,visibleSize.height/2-170);
 
     this->addChild( cielo );
 
-    MenuItemFont::setFontName( "Retro Gaming" );
-    MenuItemFont::setFontSize( SCORE_FONT_SIZE );
+    auto labelMusic = Label::createWithBMFont("fonts/BMJapan.fnt",
+                                             "MUSIC");
 
-    auto musicLabel = MenuItemFont::create("Music", CC_CALLBACK_1(OptionsMenuScene::GoToMainMenuScene, this));
-    musicLabel->setPosition( Point( visibleSize.width / 3 + origin.x, visibleSize.height / 2 + origin.y + 40) );
+    auto musicLabelItem = MenuItemLabel::create(labelMusic);
+    musicLabelItem->setScale(0.5f);
+    musicLabelItem->setPosition( Point( visibleSize.width / 3 + origin.x, visibleSize.height / 2 + origin.y + 40) );
 
-    auto soundsLabel = MenuItemFont::create("Sounds", CC_CALLBACK_1(OptionsMenuScene::GoToMainMenuScene, this));
-    soundsLabel->setPosition( Point( visibleSize.width / 3 + origin.x, visibleSize.height / 2 + origin.y) );
+    auto labelSound = Label::createWithBMFont("fonts/BMJapan.fnt",
+                                              "SOUNDS");
+    auto soundsLabelItem = MenuItemLabel::create(labelSound);
+    soundsLabelItem->setScale(0.5f);
+    soundsLabelItem->setPosition( Point( visibleSize.width / 3 + origin.x, visibleSize.height / 2 + origin.y) );
 
-    auto vibrationLabel = MenuItemFont::create("Vibration", CC_CALLBACK_1(OptionsMenuScene::GoToMainMenuScene, this));
-    vibrationLabel->setPosition( Point( visibleSize.width / 3 + origin.x, visibleSize.height / 2 + origin.y - 40) );
+    auto labelVibration = Label::createWithBMFont("fonts/BMJapan.fnt",
+                                              "VIBRATION");
+    auto vibrationLabelItem = MenuItemLabel::create(labelVibration);
+    vibrationLabelItem->setScale(0.5f);
+    vibrationLabelItem->setPosition( Point( visibleSize.width / 3 + origin.x, visibleSize.height / 2 + origin.y - 40) );
 
-    this->addChild( musicLabel );
-    this->addChild( soundsLabel );
-    this->addChild( vibrationLabel );
+    this->addChild( musicLabelItem );
+    this->addChild( soundsLabelItem );
+    this->addChild( vibrationLabelItem );
 
     musicItem = MenuItemImage::create( "switch.png", "switchOff.png", CC_CALLBACK_0( OptionsMenuScene::ChangeMusic, this ) );
     musicItem->setPosition( Point( visibleSize.width - visibleSize.width / 3  + origin.x, visibleSize.height / 2 + origin.y + 40) );
@@ -78,11 +81,19 @@ bool OptionsMenuScene::init()
     vibrationItem = MenuItemImage::create( "switch.png", "switchOff.png", CC_CALLBACK_0( OptionsMenuScene::ChangeVibration, this ) );
     vibrationItem->setPosition( Point( visibleSize.width - visibleSize.width / 3  + origin.x, visibleSize.height / 2 + origin.y - 40) );
 
-    auto returnItem = MenuItemFont::create("Return", CC_CALLBACK_1(OptionsMenuScene::GoToMainMenuScene, this));
-    returnItem->setPosition( Point( visibleSize.width / 12 + origin.x , visibleSize.height / 2 + origin.y - 100) );
+    auto labelReturn = Label::createWithBMFont("fonts/BMJapan.fnt",
+                                                  "RETURN");
+    auto returnItem = MenuItemLabel::create(labelReturn,
+                                                    CC_CALLBACK_1(OptionsMenuScene::GoToMainMenuScene, this));
+    returnItem->setScale(0.5f);
+    returnItem->setPosition( Point( visibleSize.width / 12 + origin.x , visibleSize.height / 2 + origin.y - 140) );
 
-    auto creditsItem = MenuItemFont::create("Credits", CC_CALLBACK_1(OptionsMenuScene::GoToCreditsScene, this));
-    creditsItem->setPosition( Point( visibleSize.width - visibleSize.width / 12 + origin.x , visibleSize.height / 2 + origin.y - 100) );
+    auto labelCredits = Label::createWithBMFont("fonts/BMJapan.fnt",
+                                               "CREDITS");
+    auto creditsItem = MenuItemLabel::create(labelCredits,
+                                            CC_CALLBACK_1(OptionsMenuScene::GoToCreditsScene, this));
+    creditsItem->setScale(0.5f);
+    creditsItem->setPosition( Point( visibleSize.width - visibleSize.width / 12 + origin.x , visibleSize.height / 2 + origin.y - 140) );
 
     auto menu = Menu::create( creditsItem, returnItem, musicItem, soundsItem, vibrationItem, NULL );
     menu->setPosition( Point::ZERO );

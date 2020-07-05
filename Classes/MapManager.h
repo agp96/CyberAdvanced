@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "cocos2d.h"
+#include "AndroidAlertBox.h"
 
 class MapManager : public GameManager
 {
@@ -34,13 +35,16 @@ public:
     bool checkCharacterPos();
     bool checkNextTurn();
 
-    void attackPlayer(int player, int enemy);
+    void attackPlayer(unsigned int player, unsigned int enemy);
 
-    void enemyNear(const Vec2& posPlayer);
+    bool enemyNear(const Vec2& posPlayer);
     void moveEnemies();
 
     void turnPlayer();
     void turnEnemy();
+
+    bool isSelected();
+    void unselectOthers();
 
     // implement the "static create()" method manually
     CREATE_FUNC(MapManager);
@@ -53,8 +57,13 @@ private:
     std::vector<Player*> m_player;
     std::vector<Enemy*> m_enemy;
     Texture2D* characterSelect;
+    int lifeCharacterSelect;
     Vec2 pos;
     int turn = 0;
     int numPlayers, numEnemies;
+    int _level = 0;
+    Vec2 charactersPos[2][5];
+    AndroidAlertBox alert;
+
 };
 

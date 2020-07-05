@@ -4,6 +4,7 @@
 
 #include "GUI.h"
 #include "MainMenuScene.h"
+#include "GameProgress.h"
 #include "Definitions.h"
 
 bool GUI::init(){
@@ -30,13 +31,14 @@ Node* GUI::getNode(){
 
         m_node= Node::create();
         // add the label as a child to this layer, orden de dibujado +1
-        m_node->addChild(m_labelVidas, 1);
+        //m_node->addChild(m_labelVidas, 1);
 
-
-        MenuItemFont::setFontName( "Retro Gaming" );
-        MenuItemFont::setFontSize( SCORE_FONT_SIZE );
-
-        auto menuItem = MenuItemFont::create("Menu", CC_CALLBACK_1(GUI::GoToMainMenuScene, this));
+        auto labelMenu = Label::createWithBMFont("fonts/BMJapan.fnt",
+                                                 "MENU");
+        labelMenu->setAnchorPoint(Vec2(1.0f, 1.0f));
+        auto menuItem = MenuItemLabel::create(labelMenu,
+                                              CC_CALLBACK_1(GUI::GoToMainMenuScene, this));
+        menuItem->setScale(0.5f);
         menuItem->setPosition( Point( visibleSize.width - visibleSize.width / 14 + origin.x , visibleSize.height - visibleSize.height / 12 + origin.y) );
 
         auto menu = Menu::create( menuItem, NULL );
@@ -44,8 +46,12 @@ Node* GUI::getNode(){
 
         m_node->addChild( menu );
 
-        auto turnItem = MenuItemFont::create("Finish Turn", CC_CALLBACK_1(GUI::FinishTurn, this));
-        turnItem->setPosition( Point( visibleSize.width - visibleSize.width / 4 + origin.x , visibleSize.height / 2 - visibleSize.height / 4 + origin.y) );
+        auto labelturn = Label::createWithBMFont("fonts/BMJapan.fnt",
+                                                 "FINISH TURN");
+        auto turnItem = MenuItemLabel::create(labelturn,
+                                              CC_CALLBACK_1(GUI::FinishTurn, this));
+        turnItem->setScale(0.5f);
+        turnItem->setPosition( Point( visibleSize.width - visibleSize.width / 4 + origin.x , visibleSize.height / 2 - visibleSize.height / 3 + origin.y) );
 
         auto finishTurn = Menu::create( turnItem, NULL );
         finishTurn->setPosition( Point::ZERO );
@@ -58,7 +64,7 @@ Node* GUI::getNode(){
         selectSprite->setScale(CC_CONTENT_SCALE_FACTOR());
         cocos2d::log("something5 %f", selectSprite->getCenterRect().getMinX());
         cocos2d::log("something5 %f", selectSprite->getCenterRect().getMinY());
-        selectSprite->setPosition(Point(16, 41));
+        selectSprite->setPosition(Point(POSITION_X_MAP + 16, 51));
         m_node->addChild( selectSprite );
 
         attackSprite.push_back(Sprite::create( "attack.png" ));
@@ -81,25 +87,35 @@ Node* GUI::getNode(){
 
         tileSprite = Sprite::create("map2.png");
         tileSprite->setScale(CC_CONTENT_SCALE_FACTOR()*1.4);
-        tileSprite->setPosition( Point( visibleSize.width - visibleSize.width / 4 + origin.x , visibleSize.height / 2 + origin.y)  );
+        tileSprite->setPosition( Point( visibleSize.width / 2 + visibleSize.width / 5 + origin.x , visibleSize.height / 2 + origin.y)  );
         tileSprite->setVisible(false);
 
         m_node->addChild(tileSprite, 1);
 
         int def = 0;
-        std::string s = "DEF "+__String::createWithFormat( "%i", def )->_string;
-        labelSprite = Label::createWithTTF(s, "fonts/Retro Gaming.ttf", 12);
-        labelSprite->setPosition( Point( visibleSize.width - visibleSize.width / 4 + origin.x , visibleSize.height / 2 - visibleSize.width / 12 + origin.y)  );
+        std::string s = "DEF " + std::to_string(def);
+        labelSprite = Label::createWithBMFont("fonts/BMJapan.fnt", s);
+        labelSprite->setPosition( Point( visibleSize.width / 2 + visibleSize.width / 5 + origin.x , visibleSize.height / 2 - visibleSize.width / 16 + origin.y)  );
+        labelSprite->setScale(0.4f);
         labelSprite->setVisible(false);
 
         m_node->addChild(labelSprite, 1);
 
         characterSprite = Sprite::create("player.png");
         characterSprite->setScale(CC_CONTENT_SCALE_FACTOR()*1.4);
-        characterSprite->setPosition( Point( visibleSize.width - visibleSize.width / 10 + origin.x , visibleSize.height / 2 + origin.y)  );
+        characterSprite->setPosition( Point( visibleSize.width - visibleSize.width / 5 + origin.x , visibleSize.height / 2 + origin.y)  );
         characterSprite->setVisible(false);
 
         m_node->addChild(characterSprite, 1);
+
+        int life = 100;
+        std::string s2 = std::to_string(life);
+        labelLife = Label::createWithBMFont("fonts/BMJapan.fnt", s2);
+        labelLife->setPosition( Point( visibleSize.width - visibleSize.width / 5 + origin.x , visibleSize.height / 2 - visibleSize.width / 16 + origin.y)  );
+        labelLife->setScale(0.4f);
+        labelLife->setVisible(false);
+
+        m_node->addChild(labelLife, 1);
     }
 
     return m_node;
@@ -111,8 +127,18 @@ void GUI::setVidas(int vidas){
 
 void GUI::updateGUI(const int &tile){
     idTile = tile;
-    labelSprite->setVisible(true);
     int def = 0;
+    int f = 1;
+
+    if(idTile > 16 && idTile < 32){
+        idTile = idTile - 16;
+        f = 2;
+    }
+    else if(idTile > 32 && idTile < 48){
+        idTile = idTile - 32;
+        f = 3;
+    }
+
     if(idTile == 1){
         def = 1;
     }
@@ -125,17 +151,13 @@ void GUI::updateGUI(const int &tile){
     else if(idTile == 5){
         def = 4;
     }
-    std::string s = "DEF "+__String::createWithFormat( "%i", def )->_string;
+    std::string s = "DEF " + std::to_string(def);
     labelSprite->setString(s);
 
-    tileSprite->setVisible(true);
-    int f = 1;
-    if(idTile > 16){
-        idTile = idTile - 16;
-        f = 2;
-    }
     tileSprite->setTextureRect(Rect((tileSprite->getTexture()->getContentSize().width / 16) * (idTile - 1),(tileSprite->getTexture()->getContentSize().width / 16) * (f - 1),(tileSprite->getTexture()->getContentSize().width / 16) ,(tileSprite->getTexture()->getContentSize().width / 16)));
 
+    labelSprite->setVisible(true);
+    tileSprite->setVisible(true);
 
 }
 
@@ -173,7 +195,7 @@ void GUI::setAttackPosition(const Point& newPos)
             cocos2d::log("Enemy 4 ");
             if(!attackSprite.at(i)->isVisible() && !set) {
                 attackSprite.at(i)->setPosition(
-                        Point(16 + (32 * (newPos.x)), 41 + (32 * (newPos.y))));
+                        Point(POSITION_X_MAP + 16 + (32 * (newPos.x)), 51 + (32 * (newPos.y))));
                 attackSprite.at(i)->setVisible(true);
                 set = true;
             }
@@ -189,13 +211,102 @@ void GUI::disableAttackPosition()
     }
 }
 
-void GUI::setCharacterTexture(Texture2D * newTexture)
+void GUI::setCharacterTexture(Texture2D * newTexture, int lifeCharacterSelect)
 {
     characterSprite->setTexture(newTexture);
     characterSprite->setVisible(true);
+
+    cocos2d::log("IDDDDDDDDDDDD s %d", lifeCharacterSelect);
+
+    std::string s2 = std::to_string(lifeCharacterSelect);
+    labelLife->setString(s2);
+    labelLife->setVisible(true);
 }
 
 void GUI::setVisibleTexture()
 {
     characterSprite->setVisible(false);
+    labelLife->setVisible(false);
+}
+
+void GUI::showFinishMenu(bool completed) {
+    auto visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+    if(completed) {
+        // Etiqueta congratulations
+        auto label = Label::createWithBMFont("fonts/BMJapan.fnt",
+                                             "CONGRATULATIONS!");
+        label->setAnchorPoint(Vec2(0.5f, 0.5f));
+        label->setPosition(origin.x + visibleSize.width*0.5f,
+                           origin.y + visibleSize.height*0.7f);
+        label->setScale(0.8f);
+        label->setLocalZOrder(20);
+        m_node->addChild(label);
+
+        GameProgress::getInstance()->unlockLevel(GameProgress::getInstance()->getCurrentLevel()+1);
+
+    } else {
+
+        auto labelFailed = Label::createWithBMFont("fonts/BMJapan.fnt",
+                                                   "YOU FAILED!");
+        labelFailed->setAnchorPoint(Vec2(0.5f, 0.5f));
+        labelFailed->setPosition(origin.x + visibleSize.width*0.5f,
+                                 origin.y + visibleSize.height*0.7f);
+        labelFailed->setScale(0.8f);
+        labelFailed->setLocalZOrder(20);
+        m_node->addChild(labelFailed);
+    }
+
+// Menu
+
+    auto labelBack = Label::createWithBMFont("fonts/BMJapan.fnt",
+                                             "BACK TO TITLE");
+    auto backItem = MenuItemLabel::create(labelBack,
+                                          CC_CALLBACK_1(GUI::GoToMainMenuScene, this));
+    backItem->setScale(0.5f);
+
+    auto labelRepeat = Label::createWithBMFont("fonts/BMJapan.fnt",
+                                               "REPEAT");
+    auto repeatItem = MenuItemLabel::create(labelRepeat,
+                                            CC_CALLBACK_1(GUI::menuTryAgainCallback, this));
+    repeatItem->setScale(0.5f);
+
+    auto labelNext = Label::createWithBMFont("fonts/BMJapan.fnt",
+                                             "NEXT");
+    auto nextItem = MenuItemLabel::create(labelNext,
+                                          CC_CALLBACK_1(GUI::menuNextLevelCallback, this));
+    nextItem->setScale(0.5f);
+
+    if(completed) {
+
+        auto menu = Menu::create(backItem, repeatItem, nextItem, NULL);
+        menu->alignItemsVertically();
+        menu->setPosition(origin.x + visibleSize.width*0.5f,
+                          origin.y + visibleSize.height*0.4f);
+        menu->setLocalZOrder(20);
+        m_node->addChild(menu, 1);
+    } else {
+
+        auto menu = Menu::create(backItem, repeatItem, NULL);
+        menu->alignItemsVertically();
+        menu->setPosition(origin.x + visibleSize.width*0.5f,
+                          origin.y + visibleSize.height*0.4f);
+        menu->setLocalZOrder(20);
+        m_node->addChild(menu, 1);
+    }
+
+}
+
+void GUI::menuTryAgainCallback(cocos2d::Ref *pSender) {
+    nextLevel = 0;
+}
+
+void GUI::menuNextLevelCallback(cocos2d::Ref *pSender) {
+    nextLevel = 1;
+}
+
+int GUI::getNextLevel()
+{
+    return nextLevel;
 }

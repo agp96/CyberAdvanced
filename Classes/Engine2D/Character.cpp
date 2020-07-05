@@ -25,9 +25,12 @@ const Vec2& Character::getMapPos(){
 void Character::setMapPos(const Vec2& posNew) {
     if(m_state == CharacterState::Selected && posNew != pos) {
         cocos2d::log("Player3 %f", pos.x);
+        cocos2d::log("Player3 %f", pos.y);
         pos = posNew;
-        m_characterSprite->setPosition(pos.x * 32, pos.y * 32);
-        labelLife->setPosition(Point(((pos.x + 1) * 32) - 20, ((pos.y + 1) * 32)));
+        m_characterSprite->setPosition(pos.x * 32 + 40, pos.y * 32 + 9);
+        if(life < 100) {
+            labelLife->setPosition(Point(((pos.x + 1) * 32 + 14), ((pos.y + 1) * 32 + 6)));
+        }
     }
 }
 
@@ -35,13 +38,13 @@ void Character::setState(const CharacterState& stateNew) {
     if(stateNew == CharacterState::Selected && m_state == CharacterState::Selectable) {
         m_state = CharacterState::Selected;
     }
-    else if(stateNew == CharacterState::UnSelectable && m_state == CharacterState::Attack) {
-        m_state = CharacterState::UnSelectable;
+    if(stateNew == CharacterState::Selected && m_state == CharacterState::UnSelected) {
+        m_state = CharacterState::Selected;
     }
     else if(stateNew == CharacterState::Attack && m_state == CharacterState::Selected) {
         m_state = CharacterState::Attack;
     }
-    else if(stateNew == CharacterState::UnSelected && m_state == CharacterState::Attack) {
+    else if(stateNew == CharacterState::UnSelected && m_state == CharacterState::Selected) {
         m_state = CharacterState::UnSelected;
     }
     else if(stateNew == CharacterState::Attack && m_state == CharacterState::UnSelected) {
@@ -50,7 +53,7 @@ void Character::setState(const CharacterState& stateNew) {
     else if(stateNew == CharacterState::Selectable && m_state == CharacterState::UnSelectable) {
         m_state = CharacterState::Selectable;
     }
-    else if(stateNew == CharacterState::UnSelectable && m_state == CharacterState::Selected) {
+    else if(stateNew == CharacterState::UnSelectable) {
         m_state = CharacterState::UnSelectable;
     }
 }
@@ -67,8 +70,25 @@ void Character::setLife(const int& newLife){
     life = newLife;
 }
 
+void Character::setLifeLabel(const int& newLife){
+    setLife(newLife);
+
+    if(life < 100) {
+        labelLife->setPosition(Point(((pos.x + 1) * 32 + 14), ((pos.y + 1) * 32 + 6)));
+        std::string s = __String::createWithFormat("%i", life)->_string;
+        labelLife->setString(s);
+        if(labelLife->isVisible() == false) {
+            labelLife->setVisible(true);
+        }
+    }
+}
+
 float Character::getDamage(const int& character){
     return damage[character];
+}
+
+int Character::getRange(){
+    return range;
 }
 
 Texture2D* Character::getCharacterSprite(){

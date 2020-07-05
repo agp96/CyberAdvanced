@@ -14,8 +14,6 @@ public:
     void preloadResources();
     Node* getNode();
 
-    void setLifeLabel(const int& newLife);
-
     int getCharacterType();
 
     void move();

@@ -7,9 +7,10 @@
 Player::Player(const std::string& file, const std::string& type, const Vec2& initPos){
 
     m_state = CharacterState::Selectable;
-    pos = initPos;
+    Character::pos = initPos;
 
     if(type == "domestic"){
+        range = 4;
         damage[0] = 0.6;
         damage[1] = 0.3;
         damage[2] = 0.5;
@@ -19,6 +20,7 @@ Player::Player(const std::string& file, const std::string& type, const Vec2& ini
         typeCharacter = 0;
     }
     else if(type == "killer"){
+        range = 3;
         damage[0] = 0.8;
         damage[1] = 0.7;
         damage[2] = 0.9;
@@ -28,6 +30,7 @@ Player::Player(const std::string& file, const std::string& type, const Vec2& ini
         typeCharacter = 1;
     }
     else if(type == "pet"){
+        range = 4;
         damage[0] = 0.6;
         damage[1] = 0.2;
         damage[2] = 0.6;
@@ -37,6 +40,7 @@ Player::Player(const std::string& file, const std::string& type, const Vec2& ini
         typeCharacter = 2;
     }
     else if(type == "human"){
+        range = 3;
         damage[0] = 0.6;
         damage[1] = 0.3;
         damage[2] = 0.6;
@@ -46,6 +50,7 @@ Player::Player(const std::string& file, const std::string& type, const Vec2& ini
         typeCharacter = 3;
     }
     else if(type == "advanced"){
+        range = 2;
         damage[0] = 0.95;
         damage[1] = 0.75;
         damage[2] = 0.9;
@@ -54,7 +59,6 @@ Player::Player(const std::string& file, const std::string& type, const Vec2& ini
         fileSprite = "Character/advanced.png";
         typeCharacter = 4;
     }
-
 }
 
 bool Player::init(){
@@ -97,13 +101,15 @@ Node* Player::getNode(){
         m_characterSprite = Sprite::create( fileSprite );
         m_characterSprite->setScale(CC_CONTENT_SCALE_FACTOR());
         m_characterSprite->setAnchorPoint(Vec2(0, -0.8));
-        m_characterSprite->setPosition(Point(pos.x * 32, pos.y * 32));
+        m_characterSprite->setPosition(Point(pos.x * 32 + 40, pos.y * 32 + 9));
         m_node->addChild(m_characterSprite, 1);
 
-        cocos2d::log("Enemy Attack %f", pos.x);
-        cocos2d::log("Enemy Attack %f", pos.y);
+        //cocos2d::log("Enemy Attack %f", pos.x);
+        //cocos2d::log("Enemy Attack %f", pos.y);
         std::string s = __String::createWithFormat( "%i", life )->_string;
-        labelLife = Label::createWithTTF(s, "fonts/Retro Gaming.ttf", 8);
+        labelLife = Label::createWithBMFont("fonts/Retro Gaming2.fnt",
+                                            s);
+        labelLife->setScale(0.3f);
         labelLife->setPosition( Point(((pos.x+1)*32)-20, ((pos.y+1)*32)) );
         labelLife->setVisible(false);
 
@@ -129,17 +135,6 @@ void Player::stop() {
 
 void Player::attack(){
 
-}
-
-void Player::setLifeLabel(const int& newLife){
-    setLife(newLife);
-
-    if(life < 100) {
-        labelLife->setPosition(Point(((pos.x + 1) * 32) - 20, ((pos.y + 1) * 32)));
-        std::string s = __String::createWithFormat("%i", life)->_string;
-        labelLife->setString(s);
-        labelLife->setVisible(true);
-    }
 }
 
 int Player::getCharacterType(){

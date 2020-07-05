@@ -71,3 +71,10 @@ TMXLayer *TiledMapHelper::getMainLayer(){
     return m_layer;
 }
 
+bool TiledMapHelper::isTileCoordInMap(Point tileCoord) {
+    Size mapSize = m_tiledmap->getMapSize();
+    return tileCoord.x >=0 &&
+           tileCoord.y >= 0 &&
+           tileCoord.x < mapSize.width &&
+           tileCoord.y < mapSize.height;
+}
