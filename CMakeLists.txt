@@ -62,7 +62,8 @@ list(APPEND GAME_SOURCE
      Classes/Player.cpp
      Classes/Enemy.cpp
      Classes/GUI.cpp
-     Classes/AndroidAlertBox.cpp
+     Classes/SpeechRecognitionManager.cpp
+     Classes/Fachada.cpp
      Classes/Engine2D/TiledMapHelper.cpp
      )
 list(APPEND GAME_HEADER
@@ -81,7 +82,8 @@ list(APPEND GAME_HEADER
      Classes/Player.h
      Classes/Enemy.h
      Classes/GUI.h
-     Classes/AndroidAlertBox.h
+     Classes/SpeechRecognitionManager.h
+     Classes/Fachada.h
      Classes/Engine2D/TiledMapHelper.h
      )
 

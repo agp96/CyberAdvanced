@@ -19,9 +19,12 @@ public:
     // implement the "static create()" method manually
     CREATE_FUNC(MainMenuScene);
 
+    static void publicGoToGameScene();
+    static void publicMenuCloseCallback();
+    static void publicGoToOptionsScene();
+
 private:
     void GoToGameScene( cocos2d::Ref *sender );
-    void GoToGameScene2();
     void GoToOptionsScene( cocos2d::Ref *sender );
     void menuCloseCallback( cocos2d::Ref *sender );
 

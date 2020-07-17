@@ -11,7 +11,7 @@ public interface RecognitionCallback {
 
     void onBeginningOfSpeech();
 
-    void onKeywordDetected();
+    void onKeywordDetected(String activationKeyword);
 
     void onReadyForSpeech(@NonNull Bundle var1);
 

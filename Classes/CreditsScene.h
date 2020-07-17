@@ -17,6 +17,8 @@ public:
     // implement the "static create()" method manually
     CREATE_FUNC(CreditsScene);
 
+    static void publicGoToOptionsMenuScene();
+
 private:
     void GoToOptionsMenuScene( cocos2d::Ref *sender );
 

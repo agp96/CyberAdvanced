@@ -5,6 +5,7 @@
 #include "CreditsScene.h"
 #include "OptionsMenuScene.h"
 #include "Definitions.h"
+#include "Fachada.h"
 
 USING_NS_CC;
 
@@ -23,6 +24,8 @@ static void problemLoading(const char* filename)
 // on "init" you need to initialize your instance
 bool CreditsScene::init()
 {
+    Fachada::getInstance()->cambiarEstado(4);
+
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
@@ -55,6 +58,14 @@ bool CreditsScene::init()
 
 void CreditsScene::GoToOptionsMenuScene( cocos2d::Ref *sender )
 {
+    auto scene = OptionsMenuScene::createScene();
+
+    Director::getInstance( )->replaceScene( TransitionFade::create( TRANSITION_TIME, scene ) );
+}
+
+void CreditsScene::publicGoToOptionsMenuScene()
+{
+
     auto scene = OptionsMenuScene::createScene();
 
     Director::getInstance( )->replaceScene( TransitionFade::create( TRANSITION_TIME, scene ) );

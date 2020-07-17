@@ -8,7 +8,6 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "cocos2d.h"
-#include "AndroidAlertBox.h"
 
 class MapManager : public GameManager
 {
@@ -46,11 +45,12 @@ public:
     bool isSelected();
     void unselectOthers();
 
+    static void GoToMainMenuScene();
+
     // implement the "static create()" method manually
     CREATE_FUNC(MapManager);
 
 private:
-    void GoToMainMenuScene();
 
     GUI *m_gui;
     World *m_world;
@@ -63,7 +63,6 @@ private:
     int numPlayers, numEnemies;
     int _level = 0;
     Vec2 charactersPos[2][5];
-    AndroidAlertBox alert;
 
 };
 

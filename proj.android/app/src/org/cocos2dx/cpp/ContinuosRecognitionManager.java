@@ -23,13 +23,13 @@ public class ContinuosRecognitionManager implements RecognitionListener {
     private AudioManager audioManager = null;
     private SpeechRecognizer speech = null;
     private Context context;
-    private String activationKeyword;
+    private String[] activationKeywords;
     private RecognitionCallback callback = null;
     private static final int REQUEST_CODE = 1;
 
-    public ContinuosRecognitionManager(Context con, String actKey, RecognitionCallback cal) {
+    public ContinuosRecognitionManager(Context con, String[] actKey, RecognitionCallback cal) {
         context = con;
-        activationKeyword = actKey;
+        activationKeywords = actKey;
         callback = cal;
         speech = SpeechRecognizer.createSpeechRecognizer(context);
         audioManager = (AudioManager)context.getSystemService(context.AUDIO_SERVICE);
@@ -40,9 +40,7 @@ public class ContinuosRecognitionManager implements RecognitionListener {
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, context.getPackageName());
         intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            intent.putExtra(RecognizerIntent.EXTRA_PREFER_OFFLINE, true);
-        }
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US");
         return intent;
     }
 
@@ -96,7 +94,7 @@ public class ContinuosRecognitionManager implements RecognitionListener {
         callback.onBeginningOfSpeech();
     }
 
-    public void onReadyForSpeech(@NonNull Bundle params) {
+    public void onReadyForSpeech(@NonNull Bundle params) {;
         this.muteRecognition(this.shouldMute || !this.isActivated);
         callback.onReadyForSpeech(params);
     }
@@ -144,7 +142,7 @@ public class ContinuosRecognitionManager implements RecognitionListener {
         }
     }
 
-    public void onResults(@NonNull Bundle results) {
+    public void onResults(@NonNull Bundle results) {;
         ArrayList matches = results.getStringArrayList("results_recognition");
         float[] scores = results.getFloatArray("confidence_scores");
         if (matches != null) {
@@ -153,10 +151,13 @@ public class ContinuosRecognitionManager implements RecognitionListener {
                 callback.onResults((List)matches, scores);
                 stopRecognition();
             } else {
-                if (matches.contains(activationKeyword)) {
-                    Log.i("App", "Palabra encontrada "+activationKeyword);
-                    isActivated = true;
-                    callback.onKeywordDetected();
+                Log.i("App", "Array List "+matches);
+                for(int i=0;i<activationKeywords.length;i++) {
+                    if (matches.contains(activationKeywords[i])) {
+                        Log.i("App", "Palabra encontrada " + activationKeywords[i]);
+                        isActivated = true;
+                        callback.onKeywordDetected(activationKeywords[i]);
+                    }
                 }
                 startRecognition();
             }

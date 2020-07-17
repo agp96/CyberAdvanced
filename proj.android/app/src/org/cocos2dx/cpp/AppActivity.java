@@ -45,21 +45,18 @@ import android.view.WindowManager.LayoutParams;
 import java.util.Arrays;
 import java.util.List;
 
-public class AppActivity extends Cocos2dxActivity implements RecognitionCallback {
+public class AppActivity extends Cocos2dxActivity {
 
-    static boolean keywordDetected = false;
-    private static String ACTIVATION_KEYWORD = "play";
     private static final int RECORD_AUDIO_REQUEST_CODE = 101;
 
-    private ContinuosRecognitionManager recognitionManager;
+    private SpeechRecognitionManager speechRecognitionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.setEnableVirtualButton(false);
         super.onCreate(savedInstanceState);
 
-        recognitionManager = new ContinuosRecognitionManager(this, ACTIVATION_KEYWORD, this);
-        recognitionManager.createRecognizer();
+        speechRecognitionManager = new SpeechRecognitionManager(this);
 
         Log.i("App", "Start App");
         // Workaround in https://stackoverflow.com/questions/16283079/re-launch-of-activity-on-home-button-but-only-the-first-time/16447508
@@ -85,136 +82,21 @@ public class AppActivity extends Cocos2dxActivity implements RecognitionCallback
     }
 
     protected void onDestroy() {
-        recognitionManager.destroyRecognizer();
+        speechRecognitionManager.onDestroy();
         super.onDestroy();
     }
 
     protected void onResume() {
         super.onResume();
         if (ContextCompat.checkSelfPermission((Context)this, "android.permission.RECORD_AUDIO") == 0) {
-            this.startRecognition();
+            speechRecognitionManager.startRecognition();
         }
 
     }
 
     protected void onPause() {
-        this.stopRecognition();
+        speechRecognitionManager.onPause();
         super.onPause();
-    }
-
-    private void startRecognition() {
-        recognitionManager.startRecognition();
-    }
-
-    private void stopRecognition() {
-        recognitionManager.stopRecognition();
-    }
-
-    private final String getErrorText(int errorCode) {
-        String var10000;
-        switch (errorCode) {
-            case 1:
-                var10000 = "Network timeout";
-                break;
-            case 2:
-                var10000 = "Network error";
-                break;
-            case 3:
-                var10000 = "Audio recording error";
-                break;
-            case 4:
-                var10000 = "Error from server";
-                break;
-            case 5:
-                var10000 = "Client side error";
-                break;
-            case 6:
-                var10000 = "No speech input";
-                break;
-            case 7:
-                var10000 = "No match";
-                break;
-            case 8:
-                var10000 = "RecognitionService busy";
-                break;
-            case 9:
-                var10000 = "Insufficient permissions";
-                break;
-            default:
-                var10000 = "Didn't understand, please try again.";
-        }
-
-        return var10000;
-    }
-
-
-    @Override
-    public void onBeginningOfSpeech() {
-        Log.i("Recognition","onBeginningOfSpeech");
-    }
-
-    @Override
-    public void onBufferReceived(@NonNull byte[] buffer) {
-        Log.i("Recognition", "onBufferReceived: "+buffer);
-    }
-
-    @Override
-    public void onEndOfSpeech() {
-        Log.i("Recognition","onEndOfSpeech");
-    }
-
-    @Override
-    public void onError(int errorCode) {
-        String errorMessage = getErrorText(errorCode);
-        Log.i("Recognition","onError: "+errorMessage);
-    }
-
-    @Override
-    public void onEvent(int var1, @NonNull Bundle var2) {
-        Log.i("Recognition","onEvent");
-    }
-
-    @Override
-    public void onReadyForSpeech(@NonNull Bundle var1) {
-        Log.i("Recognition","onReadyForSpeech");
-    }
-
-    @Override
-    public void onRmsChanged(float var1) {
-
-    }
-
-    @Override
-    public void onPrepared(@NonNull RecognitionStatus status) {
-        if(status!=null) {
-            if(status==RecognitionStatus.SUCCESS) {
-                Log.i("Recognition","onPrepared: Success");
-            }
-            else if(status==RecognitionStatus.UNAVAILABLE) {
-                Log.i("Recognition", "onPrepared: Failure or unavailable");
-            }
-        }
-    }
-
-    @Override
-    public void onKeywordDetected() {
-        keywordDetected = true;
-        Log.i("App","keyword detected !!!");
-    }
-
-    static public boolean keyword(){
-        return keywordDetected;
-    }
-
-    @Override
-    public void onPartialResults(@NonNull List var1) {
-
-    }
-
-    @Override
-    public void onResults(@NonNull List results, @Nullable float[] var2) {
-        String text = results.toString();
-        Log.i("Recognition","onResults : "+text);
     }
 
     @Override
@@ -225,7 +107,7 @@ public class AppActivity extends Cocos2dxActivity implements RecognitionCallback
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    startRecognition();
+                    speechRecognitionManager.startRecognition();
                     Log.i("App", "Start Recognition");
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.

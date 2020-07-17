@@ -7,6 +7,7 @@
 #include "MapManager.h"
 #include "GameProgress.h"
 #include "Definitions.h"
+#include "Fachada.h"
 
 Scene* MapManager::createScene()
 {
@@ -50,6 +51,12 @@ void MapManager::start() {
 // on "init" you need to initialize your instance
 bool MapManager::init()
 {
+    if ( !Scene::init() )
+    {
+        return false;
+    }
+
+    Fachada::getInstance()->cambiarEstado(2);
 
     _level = GameProgress::getInstance()->getCurrentLevel();
 
@@ -322,11 +329,6 @@ void MapManager::update(){
     //cocos2d::log("Pos 2 %f", m_player->getPos().y);
     //cocos2d::log("Pos 2 %f", m_enemy->getPos().x);
     //cocos2d::log("Pos 2 %f", m_enemy->getPos().y);
-
-    //cocos2d::log("IsKeywordDetected %d", alert.IsKeywordDetected());
-    if(alert.IsKeywordDetected()){
-        GoToMainMenuScene();
-    }
 
     if(m_gui->getNextLevel() == 0){
         Director::getInstance()->replaceScene(

@@ -6,6 +6,7 @@
 #include "MainMenuScene.h"
 #include "OptionsMenuScene.h"
 #include "MapManager.h"
+#include "Fachada.h"
 #include "Definitions.h"
 
 USING_NS_CC;
@@ -35,6 +36,18 @@ bool MainMenuScene::init()
         return false;
     }
 
+    Fachada::getInstance()->cambiarEstado(1);
+
+    auto _listener = EventListenerCustom::create("game_custom_event1", [=](EventCustom* event){
+        std::string str("Custom event 1 received, ");
+
+        auto scene = OptionsMenuScene::createScene();
+
+        Director::getInstance( )->replaceScene( TransitionFade::create( TRANSITION_TIME, scene ) );
+    });
+
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(_listener, this);
+
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
@@ -52,7 +65,7 @@ bool MainMenuScene::init()
     auto labelStart = Label::createWithBMFont("fonts/BMJapan.fnt",
                                               "PLAY");
     auto playItem = MenuItemLabel::create(labelStart,
-                                           CC_CALLBACK_1(MainMenuScene::GoToGameScene, this));
+                                          CC_CALLBACK_1(MainMenuScene::GoToGameScene, this));
     playItem->setScale(0.5f);
 
     auto labelOptions = Label::createWithBMFont("fonts/BMJapan.fnt",
@@ -77,14 +90,8 @@ bool MainMenuScene::init()
     return true;
 }
 
+
 void MainMenuScene::GoToGameScene( cocos2d::Ref *sender )
-{
-    auto scene = MapManager::createScene();
-
-    Director::getInstance( )->replaceScene( TransitionFade::create( TRANSITION_TIME, scene ) );
-}
-
-void MainMenuScene::GoToGameScene2()
 {
     auto scene = MapManager::createScene();
 
@@ -99,6 +106,35 @@ void MainMenuScene::GoToOptionsScene( cocos2d::Ref *sender )
 }
 
 void MainMenuScene::menuCloseCallback(cocos2d::Ref *sender)
+{
+    //Close the cocos2d-x game scene and quit the application
+    Director::getInstance()->end();
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    exit(0);
+#endif
+
+}
+
+void MainMenuScene::publicGoToGameScene()
+{
+    Director::getInstance()->getRunningScene()->getName();
+    cocos2d::log("D %s",Director::getInstance()->getRunningScene()->getName().c_str());
+    cocos2d::log("Menu");
+        auto scene = MapManager::createScene();
+    cocos2d::log("Menu");
+    Director::getInstance( )->replaceScene( TransitionFade::create( TRANSITION_TIME, scene ) );
+    cocos2d::log("Menu");
+}
+
+void MainMenuScene::publicGoToOptionsScene()
+{
+    EventCustom event("game_custom_event1");
+    cocos2d::Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
+
+}
+
+void MainMenuScene::publicMenuCloseCallback()
 {
     //Close the cocos2d-x game scene and quit the application
     Director::getInstance()->end();
