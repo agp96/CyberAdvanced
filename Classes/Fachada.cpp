@@ -3,11 +3,13 @@
 //
 
 #include <cocos/platform/CCStdC.h>
+#include <cocos/base/CCConsole.h>
 #include "Fachada.h"
 
 Fachada* Fachada::instance = NULL;
 
 Fachada::Fachada() {
+    estado = 0;
 }
 
 Fachada* Fachada::getInstance() {

@@ -4,7 +4,6 @@
 
 #include "LogoScene.h"
 #include "MainMenuScene.h"
-#include "Definitions.h"
 
 USING_NS_CC;
 
@@ -32,6 +31,7 @@ bool LogoScene::init()
 
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
     this->scheduleOnce( schedule_selector( LogoScene::GoToMainMenuScene ), DISPLAY_TIME_SPLASH_SCENE );
     auto backgroundSprite = Sprite::create( "logo.PNG" );
     backgroundSprite->setPosition( Point( visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y) );

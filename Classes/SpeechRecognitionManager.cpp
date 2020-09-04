@@ -29,7 +29,6 @@ typedef struct tick_context {
     int      done;
 } TickContext;
 TickContext g_ctx;
-std::string keyword;
 
 bool SpeechRecognitionManager::IsKeywordDetected(){
     bool tmp = false;
@@ -49,62 +48,83 @@ bool SpeechRecognitionManager::IsKeywordDetected(){
 }
 
 extern "C"
+JNIEXPORT jint JNICALL
+Java_org_cocos2dx_cpp_SpeechRecognitionManager_getEstado(JNIEnv *env, jobject thiz) {
+    // TODO: implement getEstado()
+    return Fachada::getInstance()->getEstado();
+}
+
+extern "C"
 JNIEXPORT void JNICALL
-Java_org_cocos2dx_cpp_SpeechRecognitionManager_callCppCallback(JNIEnv *env, jobject clazz, jstring jStr) {
+Java_org_cocos2dx_cpp_SpeechRecognitionManager_callCppCallback(JNIEnv *env, jobject clazz, jint numWord, jint x, jint y) {
     // TODO: implement callCppCallback()
     int estado = Fachada::getInstance()->getEstado();
-    const jclass stringClass = env->GetObjectClass(jStr);
-    const jmethodID getBytes = env->GetMethodID(stringClass, "getBytes", "(Ljava/lang/String;)[B");
-    const jbyteArray stringJbytes = (jbyteArray) env->CallObjectMethod(jStr, getBytes, env->NewStringUTF("UTF-8"));
-
-    size_t length = (size_t) env->GetArrayLength(stringJbytes);
-    jbyte* pBytes = env->GetByteArrayElements(stringJbytes, NULL);
-
-    std::string ret = std::string((char *)pBytes, length);
-    env->ReleaseByteArrayElements(stringJbytes, pBytes, JNI_ABORT);
-    keyword = ret;
-
-    env->DeleteLocalRef(stringJbytes);
-    env->DeleteLocalRef(stringClass);
     cocos2d::log("Callback %i",estado);
-    if(estado == 1){
-        if(keyword == "play"){
+    Ref* a;
+    if(estado == 0){
+        if(numWord == 0){
             MainMenuScene::publicGoToGameScene();
         }
-        else if(keyword == "options"){
+        else if(numWord == 1){
             MainMenuScene::publicGoToOptionsScene();
         }
-        else if(keyword == "exit"){
+        else if(numWord == 2){
             MainMenuScene::publicMenuCloseCallback();
         }
     }
-    else if(estado == 3){
-        if(keyword == "return"){
+    else if(estado == 1){
+        if(numWord == 0){
             OptionsMenuScene::publicGoToMainMenuScene();
         }
-        else if(keyword == "music"){
+        else if(numWord == 1){
             cocos2d::log("Callback %i",estado);
             OptionsMenuScene::ChangeMusic2();
         }
-        else if(keyword == "sounds"){
+        else if(numWord == 2){
             OptionsMenuScene::ChangeSounds2();
         }
-        else if(keyword == "vibration"){
+        else if(numWord == 3){
             OptionsMenuScene::ChangeVibration2();
         }
-        else if(keyword == "credits"){
+        else if(numWord == 4){
             OptionsMenuScene::publicGoToCreditsScene();
         }
     }
-    else if(estado == 4 && keyword == "return"){
-        CreditsScene::publicGoToOptionsMenuScene();
-    }
     else if(estado == 2){
-        if(keyword == "menu") {
-            MapManager::GoToMainMenuScene();
+        if(numWord == 0){
+            CreditsScene::publicGoToOptionsMenuScene();
         }
-        else if(keyword == "finish turn") {
-            MapManager::GoToMainMenuScene();
+        else if(numWord == 1){
+            CreditsScene::EasterEgg();
+        }
+    }
+    else if(estado == 3){
+        if(numWord == 0 && x == 0 && y == 0) {
+            GUI::publicGoToMainMenuScene();
+        }
+        else if(numWord == 1 && x == 0 && y == 0) {
+            GUI::publicFinishTurn();
+        }
+        else if(numWord == 2 && x == 0 && y == 0) {
+            GUI::publicGoToInfo();
+        }
+        else if(numWord == 3 && x == 0 && y == 0) {
+            GUI::publicContinue();
+        }
+        else if(numWord == 4 && x == 0 && y == 0) {
+            GUI::publicRepeat();
+        }
+        else if(numWord == 5 && x == 0 && y == 0) {
+            GUI::publicNext();
+        }
+        else if(numWord == 0 && x != 0 && y != 0) {
+            MapManager::publicSelect(MapManager::mp, x, y);
+        }
+        else if((numWord == 6 || numWord == 5) && x == 0 && y == 0) {
+            MapManager::publicSelectPlayer(MapManager::mp, numWord - 6);
+        }
+        else if((numWord == 7 || numWord == 5) && x != 0 && y != 0) {
+            MapManager::publicMove(MapManager::mp, numWord - 6, x, y);
         }
     }
 }

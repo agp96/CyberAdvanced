@@ -13,6 +13,4 @@
 #define POSITION_X_MAP 40
 #define POSITION_Y_MAP 30
 
-#define VIBRATION 1
-
 #endif // __DEFINITIONS_H__

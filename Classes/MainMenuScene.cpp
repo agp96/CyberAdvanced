@@ -6,8 +6,9 @@
 #include "MainMenuScene.h"
 #include "OptionsMenuScene.h"
 #include "MapManager.h"
+#include "Engine2D/AudioManager.h"
 #include "Fachada.h"
-#include "Definitions.h"
+#include "Game.h"
 
 USING_NS_CC;
 
@@ -36,7 +37,8 @@ bool MainMenuScene::init()
         return false;
     }
 
-    Fachada::getInstance()->cambiarEstado(1);
+    Fachada::getInstance()->cambiarEstado(0);
+    AudioManager::getInstance()->initAudio();
 
     auto _listener = EventListenerCustom::create("game_custom_event1", [=](EventCustom* event){
         std::string str("Custom event 1 received, ");
@@ -51,16 +53,56 @@ bool MainMenuScene::init()
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    auto backgroundSprite = Sprite::create( "Background.png" );
+    auto backgroundSprite = Sprite::create( "gameplayBackground.png" );
     backgroundSprite->setPosition( Point( visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y ) );
 
     this->addChild( backgroundSprite );
 
-    auto cielo = LayerGradient::create(Color4B(100,100,255,255),Color4B(0,0,100,255));
+    auto cielo = LayerGradient::create(Color4B(110,62,167,255),Color4B(73,10,206,255));
     cielo->setContentSize(Size(3392+500, visibleSize.height/2+200));
     cielo->setPosition(-500,visibleSize.height/2-170);
 
     this->addChild( cielo );
+
+    auto title = Label::createWithBMFont("fonts/OuterSpace.fnt",
+                                        "CYBER                        ");
+    title->setScale(0.7f);
+    title->setAnchorPoint(Vec2(0.5f, 0.5f));
+    title->setPosition(origin.x + visibleSize.width*0.5f,
+                           origin.y + visibleSize.height*0.9f);
+    this->addChild(title);
+
+    auto title2 = Label::createWithBMFont("fonts/OuterSpace.fnt",
+                                         "               ADVANCED");
+    title2->setScale(0.7f);
+    title2->setAnchorPoint(Vec2(0.5f, 0.5f));
+    title2->setPosition(origin.x + visibleSize.width*0.5f,
+                       origin.y + visibleSize.height*0.8f);
+    this->addChild(title2);
+
+    auto characterSprite = Sprite::create("Character/human_player.png");
+    characterSprite->setScale(CC_CONTENT_SCALE_FACTOR()*1.4);
+    characterSprite->setPosition( Point( visibleSize.width / 5 + origin.x , visibleSize.height / 3 + origin.y)  );
+
+    this->addChild(characterSprite);
+
+    auto characterSprite2 = Sprite::create("Character/pet_player.png");
+    characterSprite2->setScale(CC_CONTENT_SCALE_FACTOR()*1.4);
+    characterSprite2->setPosition( Point( visibleSize.width / 4 + origin.x , visibleSize.height / 2 + origin.y)  );
+
+    this->addChild(characterSprite2);
+
+    auto characterSprite3 = Sprite::create("Character/level2_kill_enemy.png");
+    characterSprite3->setScale(CC_CONTENT_SCALE_FACTOR()*1.4);
+    characterSprite3->setPosition( Point( visibleSize.width - visibleSize.width / 5 + origin.x , visibleSize.height / 3 + origin.y)  );
+
+    this->addChild(characterSprite3);
+
+    auto characterSprite4 = Sprite::create("Character/level1_smut_enemy.png");
+    characterSprite4->setScale(CC_CONTENT_SCALE_FACTOR()*1.4);
+    characterSprite4->setPosition( Point( visibleSize.width - visibleSize.width / 4 + origin.x , visibleSize.height / 2 + origin.y)  );
+
+    this->addChild(characterSprite4);
 
     auto labelStart = Label::createWithBMFont("fonts/BMJapan.fnt",
                                               "PLAY");
@@ -93,13 +135,23 @@ bool MainMenuScene::init()
 
 void MainMenuScene::GoToGameScene( cocos2d::Ref *sender )
 {
-    auto scene = MapManager::createScene();
+    AudioManager::getInstance()->playSelect();
 
-    Director::getInstance( )->replaceScene( TransitionFade::create( TRANSITION_TIME, scene ) );
+    Game::getInstance()->initGame();
+}
+
+void MainMenuScene::publicGoToGameScene()
+{
+    AudioManager::getInstance()->playSelect();
+
+    Game::getInstance()->initGame();
+
 }
 
 void MainMenuScene::GoToOptionsScene( cocos2d::Ref *sender )
 {
+    AudioManager::getInstance()->playSelect();
+
     auto scene = OptionsMenuScene::createScene();
 
     Director::getInstance( )->replaceScene( TransitionFade::create( TRANSITION_TIME, scene ) );
@@ -107,6 +159,8 @@ void MainMenuScene::GoToOptionsScene( cocos2d::Ref *sender )
 
 void MainMenuScene::menuCloseCallback(cocos2d::Ref *sender)
 {
+    AudioManager::getInstance()->playSelect();
+
     //Close the cocos2d-x game scene and quit the application
     Director::getInstance()->end();
 
@@ -116,19 +170,11 @@ void MainMenuScene::menuCloseCallback(cocos2d::Ref *sender)
 
 }
 
-void MainMenuScene::publicGoToGameScene()
-{
-    Director::getInstance()->getRunningScene()->getName();
-    cocos2d::log("D %s",Director::getInstance()->getRunningScene()->getName().c_str());
-    cocos2d::log("Menu");
-        auto scene = MapManager::createScene();
-    cocos2d::log("Menu");
-    Director::getInstance( )->replaceScene( TransitionFade::create( TRANSITION_TIME, scene ) );
-    cocos2d::log("Menu");
-}
-
 void MainMenuScene::publicGoToOptionsScene()
 {
+
+    AudioManager::getInstance()->playSelect();
+
     EventCustom event("game_custom_event1");
     cocos2d::Director::getInstance()->getEventDispatcher()->dispatchEvent(&event);
 
@@ -136,6 +182,8 @@ void MainMenuScene::publicGoToOptionsScene()
 
 void MainMenuScene::publicMenuCloseCallback()
 {
+    AudioManager::getInstance()->playSelect();
+
     //Close the cocos2d-x game scene and quit the application
     Director::getInstance()->end();
 

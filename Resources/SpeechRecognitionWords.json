@@ -1,0 +1,132 @@
+{
+  "speech": [
+  {
+  "scene":"menu",
+  "word": "play"
+},
+{
+  "scene":"menu",
+  "word": "options"
+},
+{
+  "scene":"menu",
+  "word": "exit"
+},
+{
+  "scene":"options",
+  "word": "return"
+},
+{
+  "scene":"options",
+  "word": "music"
+},
+{
+  "scene":"options",
+  "word": "sounds"
+},
+{
+  "scene":"options",
+  "word": "vibration"
+},
+{
+  "scene":"options",
+  "word": "credits"
+},
+{
+  "scene":"credits",
+  "word": "return"
+},
+{
+  "scene":"credits",
+  "word": "cyber"
+},
+{
+  "scene":"game",
+  "word": "menu"
+},
+{
+  "scene":"game",
+  "word": "finish"
+},
+{
+  "scene":"game",
+  "word": "info"
+},
+{
+  "scene":"game",
+  "word": "continue"
+},
+{
+  "scene":"game",
+  "word": "repeat"
+},
+{
+  "scene":"game",
+  "word": "next"
+},
+{
+  "scene":"game",
+  "word": "human"
+},
+{
+  "scene":"game",
+  "word": "pet"
+},
+{
+  "scene":"game",
+  "word": "one"
+},
+{
+  "scene":"game",
+  "word": "two"
+},
+{
+  "scene":"game",
+  "word": "three"
+},
+{
+  "scene":"game",
+  "word": "four"
+},
+{
+  "scene":"game",
+  "word": "five"
+},
+{
+  "scene":"game",
+  "word": "six"
+},
+{
+  "scene":"game",
+  "word": "seven"
+},
+{
+  "scene":"game",
+  "word": "1"
+},
+{
+  "scene":"game",
+  "word": "2"
+},
+{
+  "scene":"game",
+  "word": "3"
+},
+{
+  "scene":"game",
+  "word": "4"
+},
+{
+  "scene":"game",
+  "word": "5"
+},
+{
+  "scene":"game",
+  "word": "6"
+},
+{
+  "scene":"game",
+  "word": "7"
+}
+]
+}

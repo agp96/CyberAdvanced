@@ -16,6 +16,7 @@
 #include <android/log.h>
 #include "MainMenuScene.h"
 #include "MapManager.h"
+#include "GUI.h"
 #include "OptionsMenuScene.h"
 #include "CreditsScene.h"
 #include "Fachada.h"
@@ -25,7 +26,10 @@ class SpeechRecognitionManager{
 public:
     void show(const char *text);
     static bool IsKeywordDetected();
+    static int getEstado();
 
+private:
 
+    std::vector<std::vector<std::string>> words;
 };
 #endif

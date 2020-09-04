@@ -36,3 +36,11 @@ std::string GameProgress::getCurrentLevelMap() {
     return _levels.at(_currentLevel);
 }
 
+void GameProgress::setFirstInit() {
+    _first++;
+}
+
+int GameProgress::getFirstInit() {
+    return _first;
+}
+

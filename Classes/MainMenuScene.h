@@ -5,6 +5,7 @@
 #ifndef __MAIN_MENU_SCENE_H__
 #define __MAIN_MENU_SCENE_H__
 
+#include "Definitions.h"
 #include "cocos2d.h"
 
 class MainMenuScene : public cocos2d::Layer
@@ -24,7 +25,7 @@ public:
     static void publicGoToOptionsScene();
 
 private:
-    void GoToGameScene( cocos2d::Ref *sender );
+    void GoToGameScene(cocos2d::Ref *sender );
     void GoToOptionsScene( cocos2d::Ref *sender );
     void menuCloseCallback( cocos2d::Ref *sender );
 

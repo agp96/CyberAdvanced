@@ -5,6 +5,7 @@
       "sdkFolder": "C:\\Users\\agpal\\AppData\\Local\\Android\\Sdk",
       "isNativeCompilerSettingsCacheEnabled": false,
       "isBuildOnlyTargetAbiEnabled": true,
+      "ideBuildTargetAbi": "x86",
       "splitsAbiFilterSet": [],
       "intermediatesFolder": "D:\\Cocos2d\\CyberAdvanced\\proj.android\\app\\build\\intermediates",
       "gradleModulePathName": ":CyberAdvanced",
@@ -46,8 +47,6 @@
     "gradleBuildOutputFolder": "D:\\Cocos2d\\CyberAdvanced\\proj.android\\app\\.cxx\\cxx\\debug",
     "isDebuggableEnabled": true,
     "validAbiList": [
-      "ARMEABI_V7A",
-      "ARM64_V8A",
       "X86"
     ],
     "buildTargetSet": [

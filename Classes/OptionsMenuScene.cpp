@@ -6,10 +6,12 @@
 #include "OptionsMenuScene.h"
 #include "MainMenuScene.h"
 #include "CreditsScene.h"
+#include "Engine2D/AudioManager.h"
 #include "Fachada.h"
 #include "Definitions.h"
 
 USING_NS_CC;
+
 
 bool OptionsMenuScene::music = true;
 bool OptionsMenuScene::sounds = true;
@@ -43,17 +45,17 @@ bool OptionsMenuScene::init()
         return false;
     }
 
-    Fachada::getInstance()->cambiarEstado(3);
+    Fachada::getInstance()->cambiarEstado(1);
 
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    auto backgroundSprite = Sprite::create( "Background.png" );
+    auto backgroundSprite = Sprite::create( "gameplayBackground.png" );
     backgroundSprite->setPosition( Point( visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y ) );
 
     this->addChild( backgroundSprite );
 
-    auto cielo = LayerGradient::create(Color4B(100,100,255,255),Color4B(0,0,100,255));
+    auto cielo = LayerGradient::create(Color4B(110,62,167,255),Color4B(73,10,206,255));
     cielo->setContentSize(Size(3392+500, visibleSize.height/2+200));
     cielo->setPosition(-500,visibleSize.height/2-170);
 
@@ -82,13 +84,28 @@ bool OptionsMenuScene::init()
     this->addChild( soundsLabelItem );
     this->addChild( vibrationLabelItem );
 
-    musicItem = MenuItemImage::create( "switch.png", "switchOff.png", CC_CALLBACK_0( OptionsMenuScene::ChangeMusic, this ) );
+    if(music == 1) {
+        musicItem = MenuItemImage::create("switch.png", "switchOff.png", CC_CALLBACK_0(OptionsMenuScene::ChangeMusic, this));
+    }
+    else{
+        musicItem = MenuItemImage::create("switchOff.png", "switch.png", CC_CALLBACK_0(OptionsMenuScene::ChangeMusic, this));
+    }
     musicItem->setPosition( Point( visibleSize.width - visibleSize.width / 3  + origin.x, visibleSize.height / 2 + origin.y + 40) );
 
-    soundsItem = MenuItemImage::create( "switch.png", "switchOff.png", CC_CALLBACK_0( OptionsMenuScene::ChangeSounds, this ) );
+    if(sounds == 1) {
+        soundsItem = MenuItemImage::create( "switch.png", "switchOff.png", CC_CALLBACK_0( OptionsMenuScene::ChangeSounds, this ) );
+    }
+    else{
+        soundsItem = MenuItemImage::create( "switchOff.png", "switch.png", CC_CALLBACK_0( OptionsMenuScene::ChangeSounds, this ) );
+    }
     soundsItem->setPosition( Point( visibleSize.width - visibleSize.width / 3  + origin.x, visibleSize.height / 2 + origin.y) );
 
-    vibrationItem = MenuItemImage::create( "switch.png", "switchOff.png", CC_CALLBACK_0( OptionsMenuScene::ChangeVibration, this ) );
+    if(vibration == 1) {
+        vibrationItem = MenuItemImage::create( "switch.png", "switchOff.png", CC_CALLBACK_0( OptionsMenuScene::ChangeVibration, this ) );
+    }
+    else{
+        vibrationItem = MenuItemImage::create( "switchOff.png", "switch.png", CC_CALLBACK_0( OptionsMenuScene::ChangeVibration, this ) );
+    }
     vibrationItem->setPosition( Point( visibleSize.width - visibleSize.width / 3  + origin.x, visibleSize.height / 2 + origin.y - 40) );
 
     auto labelReturn = Label::createWithBMFont("fonts/BMJapan.fnt",
@@ -115,6 +132,8 @@ bool OptionsMenuScene::init()
 
 void OptionsMenuScene::GoToMainMenuScene( cocos2d::Ref *sender )
 {
+    AudioManager::getInstance()->playSelect();
+
     auto scene = MainMenuScene::createScene( );
 
     Director::getInstance( )->replaceScene( TransitionFade::create( TRANSITION_TIME, scene ) );
@@ -122,6 +141,8 @@ void OptionsMenuScene::GoToMainMenuScene( cocos2d::Ref *sender )
 
 void OptionsMenuScene::GoToCreditsScene( cocos2d::Ref *sender )
 {
+    AudioManager::getInstance()->playSelect();
+
     auto scene = CreditsScene::createScene( );
 
     Director::getInstance( )->replaceScene( TransitionFade::create( TRANSITION_TIME, scene ) );
@@ -129,6 +150,8 @@ void OptionsMenuScene::GoToCreditsScene( cocos2d::Ref *sender )
 
 void OptionsMenuScene::publicGoToMainMenuScene()
 {
+    AudioManager::getInstance()->playSelect();
+
     auto scene = MainMenuScene::createScene( );
 
     Director::getInstance( )->replaceScene( TransitionFade::create( TRANSITION_TIME, scene ) );
@@ -136,6 +159,8 @@ void OptionsMenuScene::publicGoToMainMenuScene()
 
 void OptionsMenuScene::publicGoToCreditsScene()
 {
+    AudioManager::getInstance()->playSelect();
+
     auto scene = CreditsScene::createScene( );
 
     Director::getInstance( )->replaceScene( TransitionFade::create( TRANSITION_TIME, scene ) );
@@ -146,12 +171,13 @@ void OptionsMenuScene::ChangeMusic()
     cocos2d::log("Music1");
     if(music)
     {
+        AudioManager::stopMusic();
         music = false;
         musicItem->setNormalImage(Sprite::create("switchOff.png"));
-        cocos2d::log("Music2 %f",musicItem);
     }
     else
     {
+        AudioManager::stopMusic();
         music = true;
         musicItem->setNormalImage(Sprite::create("switch.png"));
     }
@@ -162,12 +188,13 @@ void OptionsMenuScene::ChangeMusic2()
     cocos2d::log("Music1");
     if(music)
     {
+        AudioManager::stopMusic();
         music = false;
         musicItem->setNormalImage(Sprite::create("switchOff.png"));
-        cocos2d::log("Music2 %f",musicItem);
     }
     else
     {
+        AudioManager::stopMusic();
         music = true;
         musicItem->setNormalImage(Sprite::create("switch.png"));
     }
@@ -177,11 +204,13 @@ void OptionsMenuScene::ChangeSounds()
 {
     if(sounds)
     {
+        AudioManager::stopSounds();
         sounds = false;
         soundsItem->setNormalImage(Sprite::create("switchOff.png"));
     }
     else
     {
+        AudioManager::stopSounds();
         sounds = true;
         soundsItem->setNormalImage(Sprite::create("switch.png"));
     }
@@ -191,11 +220,13 @@ void OptionsMenuScene::ChangeSounds2()
 {
     if(sounds)
     {
+        AudioManager::stopSounds();
         sounds = false;
         soundsItem->setNormalImage(Sprite::create("switchOff.png"));
     }
     else
     {
+        AudioManager::stopSounds();
         sounds = true;
         soundsItem->setNormalImage(Sprite::create("switch.png"));
     }

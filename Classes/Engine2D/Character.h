@@ -53,11 +53,10 @@ public:
 
 protected:
     Sprite *m_characterSprite;
-    Animation *m_animAndar;
     CharacterState m_state;
     Label *labelLife;
     int life = 100;
-    float damage[5];
+    float damage[8];
     int range;
 
     Vec2 pos;

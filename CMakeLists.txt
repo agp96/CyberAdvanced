@@ -55,6 +55,7 @@ list(APPEND GAME_SOURCE
      Classes/CreditsScene.cpp
      Classes/Engine2D/GameManager.cpp
      Classes/Engine2D/GameEntity.cpp
+     Classes/Engine2D/AudioManager.cpp
      Classes/World.cpp
      Classes/Engine2D/Character.cpp
      Classes/GameProgress.cpp
@@ -63,6 +64,7 @@ list(APPEND GAME_SOURCE
      Classes/Enemy.cpp
      Classes/GUI.cpp
      Classes/SpeechRecognitionManager.cpp
+     Classes/Game.cpp
      Classes/Fachada.cpp
      Classes/Engine2D/TiledMapHelper.cpp
      )
@@ -75,6 +77,7 @@ list(APPEND GAME_HEADER
      Classes/Definitions.h
      Classes/Engine2D/GameManager.h
      Classes/Engine2D/GameEntity.h
+     Classes/Engine2D/AudioManager.h
      Classes/World.h
      Classes/Engine2D/Character.h
      Classes/GameProgress.h
@@ -83,6 +86,7 @@ list(APPEND GAME_HEADER
      Classes/Enemy.h
      Classes/GUI.h
      Classes/SpeechRecognitionManager.h
+     Classes/Game.h
      Classes/Fachada.h
      Classes/Engine2D/TiledMapHelper.h
      )

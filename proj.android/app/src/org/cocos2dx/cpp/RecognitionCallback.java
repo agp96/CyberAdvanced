@@ -11,7 +11,7 @@ public interface RecognitionCallback {
 
     void onBeginningOfSpeech();
 
-    void onKeywordDetected(String activationKeyword);
+    void onKeywordDetected(String activationKeyword, int numWord, int x, int y);
 
     void onReadyForSpeech(@NonNull Bundle var1);
 
@@ -28,4 +28,6 @@ public interface RecognitionCallback {
     void onEvent(int var1, @NonNull Bundle var2);
 
     void onEndOfSpeech();
+
+    int getEstadoCallback();
 }

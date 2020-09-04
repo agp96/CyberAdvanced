@@ -28,7 +28,11 @@ class OptionsMenuScene : public cocos2d::Layer
         void ChangeSounds();
         void ChangeVibration();
 
-        private:
+        static bool music;
+        static bool sounds;
+        static bool vibration;
+
+private:
         void GoToMainMenuScene( cocos2d::Ref *sender );
         void GoToCreditsScene( cocos2d::Ref *sender );
 
@@ -36,9 +40,6 @@ class OptionsMenuScene : public cocos2d::Layer
         static cocos2d::MenuItemImage *soundsItem;
         static cocos2d::MenuItemImage *vibrationItem;
 
-        static bool music;
-        static bool sounds;
-        static bool vibration;
 };
 
 #endif // __OPTIONS_MENU_SCENE_H__

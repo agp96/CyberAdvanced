@@ -6,6 +6,7 @@
 #define __CREDITS_SCENE_H__
 
 #include "cocos2d.h"
+USING_NS_CC;
 
 class CreditsScene : public cocos2d::Scene
 {
@@ -18,9 +19,14 @@ public:
     CREATE_FUNC(CreditsScene);
 
     static void publicGoToOptionsMenuScene();
+    static void EasterEgg();
 
 private:
     void GoToOptionsMenuScene( cocos2d::Ref *sender );
+
+    cocos2d::Label *labelCredits;
+
+    static Sprite *easterEggSprite;
 
 };
 

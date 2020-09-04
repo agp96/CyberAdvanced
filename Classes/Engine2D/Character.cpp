@@ -6,7 +6,9 @@
 
 Character::~Character(){
     cocos2d::log("Character Attack");
-    m_characterSprite->removeFromParent();//this->m_node->removeAllChildren();
+    m_characterSprite->removeFromParent();
+    m_characterSprite->release();
+    //this->m_node->removeAllChildren();
     labelLife->removeFromParent();
 }
 
@@ -71,10 +73,19 @@ void Character::setLife(const int& newLife){
 }
 
 void Character::setLifeLabel(const int& newLife){
-    setLife(newLife);
+
+    cocos2d::log("setLifeLabelCharacter %i", newLife);
+
+    if(newLife > 0 && newLife < 100){
+        setLife(newLife);
+    }
+    else if(newLife < 0){
+        life = 0;
+    }
 
     if(life < 100) {
         labelLife->setPosition(Point(((pos.x + 1) * 32 + 14), ((pos.y + 1) * 32 + 6)));
+        cocos2d::log("setLifeLabelCharacter3 %i", life);
         std::string s = __String::createWithFormat("%i", life)->_string;
         labelLife->setString(s);
         if(labelLife->isVisible() == false) {

@@ -14,15 +14,13 @@ public class SpeechRecognitionManager implements RecognitionCallback {
 
     static String keyword;
     static boolean isKeywordDetected = false;
-    private static String ACTIVATION_KEYWORD = "menú";
     private static final int RECORD_AUDIO_REQUEST_CODE = 101;
     String[] keywords = {"menu", "play", "options", "return", "credits","exit","music","sounds","vibration","finish turn"};
 
     private ContinuosRecognitionManager recognitionManager;
 
     public SpeechRecognitionManager(Context con) {
-
-        recognitionManager = new ContinuosRecognitionManager(con, keywords, this);
+        recognitionManager = new ContinuosRecognitionManager(con, getEstado(), this);
         recognitionManager.createRecognizer();
     }
 
@@ -35,7 +33,7 @@ public class SpeechRecognitionManager implements RecognitionCallback {
     }
 
     protected void onResume() {
-            this.startRecognition();
+        this.startRecognition();
     }
 
     protected void onPause() {
@@ -136,14 +134,14 @@ public class SpeechRecognitionManager implements RecognitionCallback {
     }
 
     @Override
-    public void onKeywordDetected(final String activationKeyword) {
+    public void onKeywordDetected(final String activationKeyword, final int numWord, final int x, final int y) {
         isKeywordDetected = true;
         keyword = activationKeyword;
-        Log.i("App","keyword detected !!! "+activationKeyword);
+        Log.i("App","keyword detected !!! "+activationKeyword+" "+numWord);
         Cocos2dxGLSurfaceView.getInstance().queueEvent(new Runnable() {
             @Override
             public void run() {
-                callCppCallback(activationKeyword);
+                callCppCallback(numWord, x, y);
             }
         });
     }
@@ -159,5 +157,12 @@ public class SpeechRecognitionManager implements RecognitionCallback {
         Log.i("Recognition","onResults : "+text);
     }
 
-    public native void callCppCallback(String activationKeyword);
+    @Override
+    public int getEstadoCallback() {
+        return getEstado();
+    }
+
+    public native void callCppCallback(int activationKeyword, int x, int y);
+
+    public native int getEstado();
 }

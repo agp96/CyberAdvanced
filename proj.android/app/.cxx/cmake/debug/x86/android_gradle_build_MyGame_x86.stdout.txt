@@ -1,2 +1,29 @@
-[1/2] Building CXX object CMakeFiles/MyGame.dir/Classes/SpeechRecognitionManager.cpp.o
+[1/2] Building CXX object CMakeFiles/MyGame.dir/Classes/MapManager.cpp.o
+D:\Cocos2d\CyberAdvanced\Classes\MapManager.cpp:70:37: warning: 'sharedUserDefault' is deprecated [-Wdeprecated-declarations]
+    UserDefault *def = UserDefault::sharedUserDefault();
+                                    ^
+../../../../../../cocos2d/cocos\base/CCUserDefault.h:242:5: note: 'sharedUserDefault' has been explicitly marked deprecated here
+    CC_DEPRECATED_ATTRIBUTE static UserDefault* sharedUserDefault();
+    ^
+../../../../../../cocos2d/cocos/platform/CCPlatformMacros.h:274:52: note: expanded from macro 'CC_DEPRECATED_ATTRIBUTE'
+    #define CC_DEPRECATED_ATTRIBUTE __attribute__((deprecated))
+                                                   ^
+D:\Cocos2d\CyberAdvanced\Classes\MapManager.cpp:334:40: warning: format specifies type 'int' but the argument has type 'float' [-Wformat]
+    cocos2d::log("checkCorrectPos %d", pos.x);
+                                  ~~   ^~~~~
+                                  %f
+D:\Cocos2d\CyberAdvanced\Classes\MapManager.cpp:335:40: warning: format specifies type 'int' but the argument has type 'float' [-Wformat]
+    cocos2d::log("checkCorrectPos %d", pos.y);
+                                  ~~   ^~~~~
+                                  %f
+D:\Cocos2d\CyberAdvanced\Classes\MapManager.cpp:537:45: warning: 'sharedUserDefault' is deprecated [-Wdeprecated-declarations]
+            UserDefault *def = UserDefault::sharedUserDefault();
+                                            ^
+../../../../../../cocos2d/cocos\base/CCUserDefault.h:242:5: note: 'sharedUserDefault' has been explicitly marked deprecated here
+    CC_DEPRECATED_ATTRIBUTE static UserDefault* sharedUserDefault();
+    ^
+../../../../../../cocos2d/cocos/platform/CCPlatformMacros.h:274:52: note: expanded from macro 'CC_DEPRECATED_ATTRIBUTE'
+    #define CC_DEPRECATED_ATTRIBUTE __attribute__((deprecated))
+                                                   ^
+4 warnings generated.
 [2/2] Linking CXX shared library ..\..\..\..\build\intermediates\cmake\debug\obj\x86\libMyGame.so

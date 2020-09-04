@@ -4,10 +4,11 @@
 
 #include "CreditsScene.h"
 #include "OptionsMenuScene.h"
-#include "Definitions.h"
+#include "Engine2D/AudioManager.h"
 #include "Fachada.h"
+#include "Definitions.h"
 
-USING_NS_CC;
+Sprite* CreditsScene::easterEggSprite;
 
 Scene* CreditsScene::createScene()
 {
@@ -24,17 +25,12 @@ static void problemLoading(const char* filename)
 // on "init" you need to initialize your instance
 bool CreditsScene::init()
 {
-    Fachada::getInstance()->cambiarEstado(4);
+    Fachada::getInstance()->cambiarEstado(2);
 
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    auto backgroundSprite = Sprite::create( "Background.png" );
-    backgroundSprite->setPosition( Point( visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y ) );
-
-    this->addChild( backgroundSprite );
-
-    auto cielo = LayerGradient::create(Color4B(100,100,255,255),Color4B(0,0,100,255));
+    auto cielo = LayerGradient::create(Color4B(110,62,167,255),Color4B(73,10,206,255));
     cielo->setContentSize(Size(3392+500, visibleSize.height/2+200));
     cielo->setPosition(-500,visibleSize.height/2-170);
 
@@ -52,12 +48,33 @@ bool CreditsScene::init()
 
     this->addChild( menu );
 
+    auto creditSprite = Sprite::create( "credits.png" );
+    creditSprite->setPosition( Point( visibleSize.width / 3 + origin.x - 15, visibleSize.height / 2 + origin.y + 40) );
+    creditSprite->setScale(0.1f);
+
+    this->addChild( creditSprite );
+
+    labelCredits = Label::createWithBMFont("fonts/Retro Gaming2.fnt",
+                                        "@agordoprieto");
+    labelCredits->setScale(0.5f);
+    labelCredits->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y + 40));
+
+    this->addChild(labelCredits, 1);
+
+    easterEggSprite = Sprite::create( "easterEgg.png" );
+    easterEggSprite->setPosition( Point( visibleSize.width + 10 , visibleSize.height / 3 ) );
+    easterEggSprite->setScale(CC_CONTENT_SCALE_FACTOR());
+    easterEggSprite->setVisible(false);
+
+    this->addChild( easterEggSprite );
 
     return true;
 }
 
 void CreditsScene::GoToOptionsMenuScene( cocos2d::Ref *sender )
 {
+    AudioManager::getInstance()->playSelect();
+
     auto scene = OptionsMenuScene::createScene();
 
     Director::getInstance( )->replaceScene( TransitionFade::create( TRANSITION_TIME, scene ) );
@@ -66,7 +83,18 @@ void CreditsScene::GoToOptionsMenuScene( cocos2d::Ref *sender )
 void CreditsScene::publicGoToOptionsMenuScene()
 {
 
+    AudioManager::getInstance()->playSelect();
+
     auto scene = OptionsMenuScene::createScene();
 
     Director::getInstance( )->replaceScene( TransitionFade::create( TRANSITION_TIME, scene ) );
+}
+
+void CreditsScene::EasterEgg()
+{
+
+    easterEggSprite->setVisible(true);
+    MoveTo *actionMoveTo = MoveTo::create(3, Point( -40 , easterEggSprite->getPositionY() ));
+    easterEggSprite->runAction(actionMoveTo);
+
 }
