@@ -58,7 +58,7 @@ public class AppActivity extends Cocos2dxActivity {
 
         speechRecognitionManager = new SpeechRecognitionManager(this);
 
-        Log.i("App", "Start App");
+        //Log.i("App", "Start App");
         // Workaround in https://stackoverflow.com/questions/16283079/re-launch-of-activity-on-home-button-but-only-the-first-time/16447508
         if (!isTaskRoot()) {
             // Android launched another instance of the root activity into an existing task
@@ -77,7 +77,7 @@ public class AppActivity extends Cocos2dxActivity {
         // DO OTHER INITIALIZATION BELOW
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, RECORD_AUDIO_REQUEST_CODE);
-            Log.i("App", "Permissions");
+            //Log.i("App", "Permissions");
         }
     }
 
@@ -108,7 +108,7 @@ public class AppActivity extends Cocos2dxActivity {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     speechRecognitionManager.startRecognition();
-                    Log.i("App", "Start Recognition");
+                    //Log.i("App", "Start Recognition");
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
                 } else {

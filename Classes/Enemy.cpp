@@ -203,8 +203,8 @@ Node* Enemy::getNode(){
         m_characterSprite->setLocalZOrder(10);
         m_node->addChild(m_characterSprite, 1);
 
-        cocos2d::log("Enemy Attack %f", pos.x);
-        cocos2d::log("Enemy Attack %f", pos.y);
+        //cocos2d::log("Enemy Attack %f", pos.x);
+        //cocos2d::log("Enemy Attack %f", pos.y);
         std::string s = __String::createWithFormat( "%i", life )->_string;
         labelLife = Label::createWithBMFont("fonts/Retro Gaming2.fnt",
                                             s);

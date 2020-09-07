@@ -38,12 +38,12 @@ void AudioManager::stopMusic(){
     if(musicON) {
         AudioEngine::pause(_id_background_music);
         musicON = false;
-        cocos2d::log("Stop");
+        //cocos2d::log("Stop");
     }
     else{
         AudioEngine::resume(_id_background_music);
         musicON = true;
-        cocos2d::log("Continue");
+        //cocos2d::log("Continue");
     }
 }
 

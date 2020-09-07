@@ -58,14 +58,13 @@ list(APPEND GAME_SOURCE
      Classes/Engine2D/AudioManager.cpp
      Classes/World.cpp
      Classes/Engine2D/Character.cpp
-     Classes/GameProgress.cpp
      Classes/MapManager.cpp
      Classes/Player.cpp
      Classes/Enemy.cpp
      Classes/GUI.cpp
      Classes/SpeechRecognitionManager.cpp
      Classes/Game.cpp
-     Classes/Fachada.cpp
+     Classes/GameData.cpp
      Classes/Engine2D/TiledMapHelper.cpp
      )
 list(APPEND GAME_HEADER
@@ -80,14 +79,13 @@ list(APPEND GAME_HEADER
      Classes/Engine2D/AudioManager.h
      Classes/World.h
      Classes/Engine2D/Character.h
-     Classes/GameProgress.h
      Classes/MapManager.h
      Classes/Player.h
      Classes/Enemy.h
      Classes/GUI.h
      Classes/SpeechRecognitionManager.h
      Classes/Game.h
-     Classes/Fachada.h
+     Classes/GameData.h
      Classes/Engine2D/TiledMapHelper.h
      )
 

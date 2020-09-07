@@ -18,7 +18,6 @@ void TiledMapHelper::loadTileMap(const char *url, const char *withCollisionLayer
     m_tiledmap->setPositionY(visibleSize.height/2);
     m_layer = m_tiledmap->getLayer(withCollisionLayer);
 
-
 }
 
 Point TiledMapHelper::tileCoordForPosition(const Point& position)

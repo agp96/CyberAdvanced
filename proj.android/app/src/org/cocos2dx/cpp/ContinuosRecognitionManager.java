@@ -59,7 +59,7 @@ public class ContinuosRecognitionManager implements RecognitionListener {
             is.close();
             json = new String(buffer, "UTF-8");
 
-            Log.i("Recognition", "JSON" + json);
+            //Log.i("Recognition", "JSON" + json);
 
             is.close();
             try {
@@ -215,18 +215,18 @@ public class ContinuosRecognitionManager implements RecognitionListener {
                 callback.onResults((List)matches, scores);
                 stopRecognition();
             } else {
-                Log.i("App", "Array List 1 "+matches);
+                //Log.i("App", "Array List 1 "+matches);
                 if(estado < 3) {
                     for (int k = 0; k < matches.size(); k++) {
                         if(!isActivated) {
                             String[] s = matches.get(k).toString().split(" ");
                             for (int j = 0; j < s.length; j++) {
-                                Log.i("App", "Array List 2 " + k + " " + matches.get(k).toString());
-                                Log.i("App", "Array List 2 " + activationKeywords.get(estado).size());
+                                //Log.i("App", "Array List 2 " + k + " " + matches.get(k).toString());
+                                //Log.i("App", "Array List 2 " + activationKeywords.get(estado).size());
                                 for (int i = 0; i < activationKeywords.get(estado).size(); i++) {
-                                    Log.i("App", "Array List 3 " + i + " " + s[j]);
+                                    //Log.i("App", "Array List 3 " + i + " " + s[j]);
                                     if (s[j].contains(activationKeywords.get(estado).get(i))) {
-                                        Log.i("App", "Palabra encontrada " + activationKeywords.get(estado).get(i));
+                                        //Log.i("App", "Palabra encontrada " + activationKeywords.get(estado).get(i));
                                         isActivated = true;
                                         callback.onKeywordDetected(activationKeywords.get(estado).get(i), i, 0, 0);
                                     }
@@ -236,18 +236,18 @@ public class ContinuosRecognitionManager implements RecognitionListener {
                     }
                 }
                 else {
-                    Log.i("App", "Array List Estado 3 ");
+                    //Log.i("App", "Array List Estado 3 ");
                     for (int k = 0; k < matches.size(); k++) {
-                        Log.i("App", "Array List Estado 3 ");
+                        //Log.i("App", "Array List Estado 3 ");
                         if (!isActivated) {
-                            Log.i("App", "Array List Estado 3 ");
+                            //Log.i("App", "Array List Estado 3 ");
                             for (int i = 0; i < 8; i++) {
                                 if (matches.contains(activationKeywords.get(estado).get(i))) {
                                     if (i == 6 || i == 7) {
                                         character = true;
                                         numCharacter = i;
                                     }
-                                    Log.i("App", "Palabra encontrada " + activationKeywords.get(estado).get(i));
+                                    //Log.i("App", "Palabra encontrada " + activationKeywords.get(estado).get(i));
                                     isActivated = true;
                                     callback.onKeywordDetected(activationKeywords.get(estado).get(i), i, 0, 0);
                                 }
@@ -260,10 +260,10 @@ public class ContinuosRecognitionManager implements RecognitionListener {
                             y = 0;
                             String[] s = matches.get(k).toString().split(" ");
                             for (int j = 0; j < s.length; j++) {
-                                Log.i("App", "Array List 2 " + k + " " + matches.get(k).toString());
-                                Log.i("App", "Array List 2 " + activationKeywords.get(estado).size());
+                                //Log.i("App", "Array List 2 " + k + " " + matches.get(k).toString());
+                                //Log.i("App", "Array List 2 " + activationKeywords.get(estado).size());
                                 for (int i = 6; i < activationKeywords.get(estado).size(); i++) {
-                                    Log.i("App", "Array List 3 " + i + " " + s[j] + " " + activationKeywords.get(estado).get(i));
+                                    //Log.i("App", "Array List 3 " + i + " " + s[j] + " " + activationKeywords.get(estado).get(i));
                                     if (s[j].contains(activationKeywords.get(estado).get(i))) {
                                         if (i > 7 && x == 0) {
                                             if (i < 11) {
@@ -271,17 +271,17 @@ public class ContinuosRecognitionManager implements RecognitionListener {
                                             } else {
                                                 x = i - 12;
                                             }
-                                            Log.i("App", "Array List 3 " + i + " " + x);
+                                            //Log.i("App", "Array List 3 " + i + " " + x);
                                         } else if (i > 7 && x != 0 && y == 0) {
                                             if (i < 11) {
                                                 y = i - 5;
                                             } else {
                                                 y = i - 12;
                                             }
-                                            Log.i("App", "Array List 3 " + i + " " + y);
+                                            //Log.i("App", "Array List 3 " + i + " " + y);
                                         }
                                         if (x != 0 && y != 0) {
-                                            Log.i("App", "Palabra encontrada "+activationKeywords.get(estado).get(i)+" "+numCharacter+" "+x+" "+y);
+                                            //Log.i("App", "Palabra encontrada "+activationKeywords.get(estado).get(i)+" "+numCharacter+" "+x+" "+y);
                                             isActivated = true;
                                             callback.onKeywordDetected(activationKeywords.get(estado).get(i), numCharacter, x, y);
                                         }

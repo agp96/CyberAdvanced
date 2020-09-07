@@ -5,7 +5,6 @@
       "sdkFolder": "C:\\Users\\agpal\\AppData\\Local\\Android\\Sdk",
       "isNativeCompilerSettingsCacheEnabled": false,
       "isBuildOnlyTargetAbiEnabled": true,
-      "ideBuildTargetAbi": "arm64-v8a,armeabi-v7a,armeabi",
       "splitsAbiFilterSet": [],
       "intermediatesFolder": "D:\\Cocos2d\\CyberAdvanced\\proj.android\\app\\build\\intermediates",
       "gradleModulePathName": ":CyberAdvanced",
@@ -47,8 +46,9 @@
     "gradleBuildOutputFolder": "D:\\Cocos2d\\CyberAdvanced\\proj.android\\app\\.cxx\\cxx\\debug",
     "isDebuggableEnabled": true,
     "validAbiList": [
+      "ARMEABI_V7A",
       "ARM64_V8A",
-      "ARMEABI_V7A"
+      "X86"
     ],
     "buildTargetSet": [
       "MyGame"

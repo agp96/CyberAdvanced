@@ -7,7 +7,7 @@
 #include "MainMenuScene.h"
 #include "CreditsScene.h"
 #include "Engine2D/AudioManager.h"
-#include "Fachada.h"
+#include "GameData.h"
 #include "Definitions.h"
 
 USING_NS_CC;
@@ -45,15 +45,15 @@ bool OptionsMenuScene::init()
         return false;
     }
 
-    Fachada::getInstance()->cambiarEstado(1);
+    GameData::getInstance()->cambiarEstado(1);
 
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    auto backgroundSprite = Sprite::create( "gameplayBackground.png" );
-    backgroundSprite->setPosition( Point( visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y ) );
+    //auto backgroundSprite = Sprite::create( "gameplayBackground.png" );
+    //backgroundSprite->setPosition( Point( visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y ) );
 
-    this->addChild( backgroundSprite );
+    //this->addChild( backgroundSprite );
 
     auto cielo = LayerGradient::create(Color4B(110,62,167,255),Color4B(73,10,206,255));
     cielo->setContentSize(Size(3392+500, visibleSize.height/2+200));
@@ -168,7 +168,6 @@ void OptionsMenuScene::publicGoToCreditsScene()
 
 void OptionsMenuScene::ChangeMusic()
 {
-    cocos2d::log("Music1");
     if(music)
     {
         AudioManager::stopMusic();
@@ -185,7 +184,6 @@ void OptionsMenuScene::ChangeMusic()
 
 void OptionsMenuScene::ChangeMusic2()
 {
-    cocos2d::log("Music1");
     if(music)
     {
         AudioManager::stopMusic();

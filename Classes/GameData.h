@@ -1,17 +1,16 @@
 //
-// Created by agpal on 21/03/2020.
+// Created by agpal on 07/09/2020.
 //
 
-#pragma once
+#ifndef PROJ_ANDROID_GAMEDATA_H
+#define PROJ_ANDROID_GAMEDATA_H
 
-#include "cocos2d.h"
-
-class string;
-
-class GameProgress
-{
+class GameData {
 public:
-    static GameProgress* getInstance();
+    static GameData* getInstance();
+
+    void cambiarEstado(int cambiaEstado);
+    int getEstado();
 
     void goToLevel(int);
     void goToLastUnlockedLevel();
@@ -22,12 +21,15 @@ public:
     std::string getCurrentLevelMap();
 
 private:
-    static GameProgress *instance;
-    GameProgress();
+    static GameData *instance;
+    GameData();
 
+    int estado;
     std::vector<std::string> _levels = { "res/map2.tmx", "res/map3.tmx", "res/map4.tmx" };
     int _currentLevel = 0;
     int _unlockedLevels = 0;
     int _first = 0;
 };
 
+
+#endif //PROJ_ANDROID_GAMEDATA_H

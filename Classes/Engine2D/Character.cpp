@@ -5,7 +5,7 @@
 #include "Character.h"
 
 Character::~Character(){
-    cocos2d::log("Character Attack");
+    //cocos2d::log("Character Attack");
     m_characterSprite->removeFromParent();
     m_characterSprite->release();
     //this->m_node->removeAllChildren();
@@ -26,8 +26,8 @@ const Vec2& Character::getMapPos(){
 
 void Character::setMapPos(const Vec2& posNew) {
     if(m_state == CharacterState::Selected && posNew != pos) {
-        cocos2d::log("Player3 %f", pos.x);
-        cocos2d::log("Player3 %f", pos.y);
+        //cocos2d::log("Player3 %f", pos.x);
+        //cocos2d::log("Player3 %f", pos.y);
         pos = posNew;
         m_characterSprite->setPosition(pos.x * 32 + 40, pos.y * 32 + 9);
         if(life < 100) {
@@ -74,7 +74,7 @@ void Character::setLife(const int& newLife){
 
 void Character::setLifeLabel(const int& newLife){
 
-    cocos2d::log("setLifeLabelCharacter %i", newLife);
+    //cocos2d::log("setLifeLabelCharacter %i", newLife);
 
     if(newLife > 0 && newLife < 100){
         setLife(newLife);
@@ -85,7 +85,7 @@ void Character::setLifeLabel(const int& newLife){
 
     if(life < 100) {
         labelLife->setPosition(Point(((pos.x + 1) * 32 + 14), ((pos.y + 1) * 32 + 6)));
-        cocos2d::log("setLifeLabelCharacter3 %i", life);
+        //cocos2d::log("setLifeLabelCharacter3 %i", life);
         std::string s = __String::createWithFormat("%i", life)->_string;
         labelLife->setString(s);
         if(labelLife->isVisible() == false) {

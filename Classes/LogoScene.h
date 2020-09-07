@@ -14,7 +14,6 @@ public:
 
     virtual bool init();
 
-    // implement the "static create()" method manually
     CREATE_FUNC(LogoScene);
 
 private:

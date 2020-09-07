@@ -4,7 +4,7 @@
 
 #include "GUI.h"
 #include "MainMenuScene.h"
-#include "GameProgress.h"
+#include "GameData.h"
 #include "Engine2D/AudioManager.h"
 #include "Definitions.h"
 
@@ -78,11 +78,11 @@ Node* GUI::getNode(){
         m_node->addChild( finishTurn );
 
         selectSprite = Sprite::create( "select.png" );
-        cocos2d::log("something5 %f", selectSprite->getContentSize().width);
-        cocos2d::log("something5 %f", selectSprite->getContentSize().height);
+        //cocos2d::log("something5 %f", selectSprite->getContentSize().width);
+        //cocos2d::log("something5 %f", selectSprite->getContentSize().height);
         selectSprite->setScale(CC_CONTENT_SCALE_FACTOR());
-        cocos2d::log("something5 %f", selectSprite->getCenterRect().getMinX());
-        cocos2d::log("something5 %f", selectSprite->getCenterRect().getMinY());
+        //cocos2d::log("something5 %f", selectSprite->getCenterRect().getMinX());
+        //cocos2d::log("something5 %f", selectSprite->getCenterRect().getMinY());
         selectSprite->setPosition(Point(POSITION_X_MAP + 16, 50));
         m_node->addChild( selectSprite );
 
@@ -104,13 +104,13 @@ Node* GUI::getNode(){
         m_node->addChild( attackSprite.at(2) );
         m_node->addChild( attackSprite.at(3) );
 
-        cocos2d::log("levelGUI %i", GameProgress::getInstance()->getCurrentLevel() );
-        if(GameProgress::getInstance()->getCurrentLevel() == 0) {
-            cocos2d::log("levelGUI1 %i", GameProgress::getInstance()->getCurrentLevel() );
+        //cocos2d::log("levelGUI %i", GameData::getInstance()->getCurrentLevel() );
+        if(GameData::getInstance()->getCurrentLevel() == 0) {
+            //cocos2d::log("levelGUI1 %i", GameData::getInstance()->getCurrentLevel() );
             tileSprite = Sprite::create("map2.png");
         }
         else {
-            cocos2d::log("levelGUI2 %i", GameProgress::getInstance()->getCurrentLevel() );
+            //cocos2d::log("levelGUI2 %i", GameData::getInstance()->getCurrentLevel() );
             tileSprite = Sprite::create("map3.png");
         }
         tileSprite->setScale(CC_CONTENT_SCALE_FACTOR()*1.4);
@@ -145,7 +145,7 @@ Node* GUI::getNode(){
         m_node->addChild(labelLife, 1);
     }
 
-    cocos2d::log("GUI");
+    //cocos2d::log("GUI");
     return m_node;
 }
 
@@ -159,7 +159,7 @@ void GUI::updateGUI(const int &tile){
     int def = 0;
     int f = 1;
 
-    cocos2d::log("updateGUI %d", idTile);
+    //cocos2d::log("updateGUI %d", idTile);
 
     if (idTile < 5) {
         def = idTile;
@@ -209,7 +209,7 @@ void GUI::GoToInfo( cocos2d::Ref *sender )
     m_node->addChild(fondoInfo, 1);
 
     std::string s;
-    if(GameProgress::getInstance()->getCurrentLevel() == 0) {
+    if(GameData::getInstance()->getCurrentLevel() == 0) {
         s = "Human: What are those things?\n\n"
             "Pet: It's my food, but big\n\n"
             "Human: Oh I know what could happen, last night I was with\ndifferent experiments to make hair grow, one of them must have spilled\n\n"
@@ -265,7 +265,7 @@ void GUI::showInfo()
     m_node->addChild(fondoInfo, 1);
 
     std::string s;
-    if(GameProgress::getInstance()->getCurrentLevel() == 0) {
+    if(GameData::getInstance()->getCurrentLevel() == 0) {
         s = "Human: What are those things?\n\n"
             "Pet: It's my food, but big\n\n"
             "Human: Oh I know what could happen, last night I was with\ndifferent experiments to make hair grow, one of them must have spilled\n\n"
@@ -325,7 +325,7 @@ void GUI::publicGoToInfo()
         gui->m_node->addChild(gui->fondoInfo, 1);
 
         std::string s;
-        if(GameProgress::getInstance()->getCurrentLevel() == 0) {
+        if(GameData::getInstance()->getCurrentLevel() == 0) {
             s = "Human: What are those things?\n\n"
                 "Pet: It's my food, but big\n\n"
                 "Human: Oh I know what could happen, last night I was with\ndifferent experiments to make hair grow, one of them must have spilled\n\n"
@@ -463,7 +463,7 @@ void GUI::setAttackPosition(const Point& newPos)
 {
     bool set = false;
     for (unsigned int i = 0; i < 4; i++) {
-        cocos2d::log("Enemy 4 ");
+        //cocos2d::log("Enemy 4 ");
         if (!attackSprite.at(i)->isVisible() && !set) {
             attackSprite.at(i)->setPosition(
                     Point(POSITION_X_MAP + 16 + (32 * (newPos.x)), 50 + (32 * (newPos.y))));
@@ -487,7 +487,7 @@ void GUI::setCharacterTexture(Texture2D * newTexture, int lifeCharacterSelect)
     characterSprite->setTexture(newTexture);
     characterSprite->setVisible(true);
 
-    cocos2d::log("setLifeLabelGUI %d", lifeCharacterSelect);
+    //cocos2d::log("setLifeLabelGUI %d", lifeCharacterSelect);
 
     std::string s2 = std::to_string(lifeCharacterSelect);
     labelLife->setString(s2);
@@ -523,8 +523,8 @@ void GUI::showFinishMenu(bool completed) {
         label->setLocalZOrder(20);
         m_node->addChild(label);
 
-        cocos2d::log("completed %d", completed);
-        GameProgress::getInstance()->unlockLevel(GameProgress::getInstance()->getCurrentLevel()+1);
+        //cocos2d::log("completed %d", completed);
+        GameData::getInstance()->unlockLevel(GameData::getInstance()->getCurrentLevel()+1);
 
     } else {
         auto labelFailed = Label::createWithBMFont("fonts/BMJapan.fnt",
@@ -537,7 +537,7 @@ void GUI::showFinishMenu(bool completed) {
         m_node->addChild(labelFailed);
     }
 
-    cocos2d::log("completed %d", completed);
+    //cocos2d::log("completed %d", completed);
 
     auto labelBack = Label::createWithBMFont("fonts/BMJapan.fnt",
                                              "MENU");
@@ -562,13 +562,13 @@ void GUI::showFinishMenu(bool completed) {
     nextItem->setVisible(false);
 
     if(completed) {
-        cocos2d::log("completed1 %d", completed);
+        //cocos2d::log("completed1 %d", completed);
         info->setVisible(false);
         menu->setVisible(false);
         finishTurn->setVisible(false);
         backItem->setVisible(true);
         repeatItem->setVisible(true);
-        if(GameProgress::getInstance()->getCurrentLevel() == 0) {
+        if(GameData::getInstance()->getCurrentLevel() == 0) {
             nextItem->setVisible(true);
         }
         if(nextItem->isVisible()) {
@@ -588,7 +588,7 @@ void GUI::showFinishMenu(bool completed) {
             m_node->addChild(menu, 1);
         }
     } else {
-        cocos2d::log("completed2 %d", completed);
+        //cocos2d::log("completed2 %d", completed);
         info->setVisible(false);
         menu->setVisible(false);
         finishTurn->setVisible(false);
@@ -606,7 +606,7 @@ void GUI::showFinishMenu(bool completed) {
 
 void GUI::menuTryAgainCallback(cocos2d::Ref *pSender) {
     nextLevel = 0;
-    cocos2d::log("completedTRY %d", nextLevel);
+    //cocos2d::log("completedTRY %d", nextLevel);
 }
 
 void GUI::publicRepeat() {
@@ -617,14 +617,14 @@ void GUI::publicRepeat() {
 
 void GUI::menuNextLevelCallback(cocos2d::Ref *pSender) {
     nextLevel = 1;
-    GameProgress::getInstance()->goToLevel(1);
-    cocos2d::log("completedNEXT %d", nextLevel);
+    GameData::getInstance()->goToLevel(1);
+    //cocos2d::log("completedNEXT %d", nextLevel);
 }
 
 void GUI::publicNext() {
     if(gui->finish && !gui->pause) {
         gui->nextLevel = 1;
-        GameProgress::getInstance()->goToLevel(1);
+        GameData::getInstance()->goToLevel(1);
     }
 }
 
@@ -634,6 +634,5 @@ int GUI::getNextLevel()
 }
 
 void GUI::getGUI(GUI *g){
-    cocos2d::log("getClass");
     gui = g;
 }

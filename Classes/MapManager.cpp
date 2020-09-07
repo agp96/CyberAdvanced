@@ -5,10 +5,9 @@
 #include <cocos/math/CCAffineTransform.h>
 #include "MainMenuScene.h"
 #include "MapManager.h"
-#include "GameProgress.h"
+#include "GameData.h"
 #include "OptionsMenuScene.h"
 #include "Engine2D/AudioManager.h"
-#include "Fachada.h"
 
 MapManager* MapManager::mp = NULL;
 
@@ -32,13 +31,11 @@ MapManager::~MapManager(){
     m_world->release();
     for(unsigned int i=0;i<numPlayers;i++){
         m_player.at(i)->release();
-        cocos2d::log("MapManagerPlayer");
     }
     for(unsigned int j=0;j<numEnemies;j++){
         m_enemy.at(j)->release();
     }
 
-    cocos2d::log("MapManager1");
 }
 
 void MapManager::preloadResources(){
@@ -47,13 +44,13 @@ void MapManager::preloadResources(){
 
 void MapManager::start() {
     Node *scrollable = Node::create();
-    cocos2d::log("MapManager8");
+    //cocos2d::log("MapManager8");
 
     addEachGameEntityNodeTo(scrollable);
-    cocos2d::log("MapManager8");
+    //cocos2d::log("MapManager8");
 
     addChild(scrollable);
-    cocos2d::log("MapManager8");
+    //cocos2d::log("MapManager8");
     //addChild(m_gui->getNode());
 }
 
@@ -65,13 +62,9 @@ bool MapManager::init()
         return false;
     }
 
-    Fachada::getInstance()->cambiarEstado(3);
+    GameData::getInstance()->cambiarEstado(3);
 
-    UserDefault *def = UserDefault::sharedUserDefault();
-    if(def->getIntegerForKey("level") == 1){
-        GameProgress::getInstance()->goToLevel(1);
-    }
-    level = GameProgress::getInstance()->getCurrentLevel();
+    level = GameData::getInstance()->getCurrentLevel();
 
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -108,7 +101,6 @@ bool MapManager::init()
 
     }
     else if(level == 1){
-        cocos2d::log("level");
         m_player.push_back(new Player("Character/human_player.png", "human", Vec2(4, 2)));
         m_player.at(0)->retain();
         charactersPos[0][0] = Vec2(4, 2);
@@ -151,24 +143,21 @@ bool MapManager::init()
     addGameEntity(m_gui);
     m_gui->getGUI(m_gui);
 
-    cocos2d::log("MapManager7");
     preloadResources();
-    cocos2d::log("MapManager8");
     start();
 
-    cocos2d::log("Test");
     //this->scheduleUpdate( );k
 
     m_gui->setSelectPosition(Point(POSITION_X_MAP + 16, 50));
     m_gui->updateGUI(level+2);
 
-    if(GameProgress::getInstance()->getFirstInit() == 0 && level == 0){
+    if(GameData::getInstance()->getFirstInit() == 0 && level == 0){
         m_gui->showInfo();
-        GameProgress::getInstance()->setFirstInit();
+        GameData::getInstance()->setFirstInit();
     }
-    else if(GameProgress::getInstance()->getFirstInit() == 1 && level == 1){
+    else if(GameData::getInstance()->getFirstInit() == 1 && level == 1){
         m_gui->showInfo();
-        GameProgress::getInstance()->setFirstInit();
+        GameData::getInstance()->setFirstInit();
     }
 
     //characterSelect = m_player.at(0)->getCharacterSprite();
@@ -191,16 +180,16 @@ bool MapManager::onTouchBegan(Touch *touch, cocos2d::Event *event){
         Vec2 v2 = touch->getLocationInView();
         log(v.x);
         log(v.y);
-        cocos2d::log("something1 %f", v.x);
-        cocos2d::log("something1 %f", v.y);
+        //cocos2d::log("something1 %f", v.x);
+        //cocos2d::log("something1 %f", v.y);
         Point p = m_world->tileCoordForPosition(v);
         Point p2 = m_world->tileCoordForPosition(v2);
         Rect r = m_world->tileRectForPosition(p);
         Vec2 v3 = Vec2(v.x, -v.y);
         //cocos2d::log("something2 %f", p.x);
         //cocos2d::log("something2 %f", p.y);
-        cocos2d::log("something2 %f", p2.x);
-        cocos2d::log("something2 %f", p2.y);
+        //cocos2d::log("something2 %f", p2.x);
+        //cocos2d::log("something2 %f", p2.y);
         //cocos2d::log("something3 %f", r.getMinX());
         //cocos2d::log("something3 %f", r.getMinY());
         //cocos2d::log("something4 %f", selectSprite->getPositionX());
@@ -218,11 +207,11 @@ bool MapManager::onTouchBegan(Touch *touch, cocos2d::Event *event){
             for (unsigned int i = 0; i < numPlayers; i++) {
                 if (pos.x == m_player.at(i)->getMapPos().x &&
                     pos.y == m_player.at(i)->getMapPos().y) {
-                    cocos2d::log("aaaaaaaaaaaaaaaaaaa1 %f", static_cast<double>(i));
+                    //cocos2d::log("aaaaaaaaaaaaaaaaaaa1 %f", static_cast<double>(i));
                     if (m_player.at(i)->getState() == CharacterState::Selectable ||
                         m_player.at(i)->getState() == CharacterState::UnSelected ||
                         m_player.at(i)->getState() == CharacterState::Attack) {
-                        cocos2d::log("aaaaaaaaaaaaaaaaaaa1 %f", static_cast<double>(i));
+                        //cocos2d::log("aaaaaaaaaaaaaaaaaaa1 %f", static_cast<double>(i));
                         selected = true;
                         //cocos2d::log("Pos s %f", pos.x);
                         //cocos2d::log("Pos s %f", pos.y);
@@ -232,7 +221,7 @@ bool MapManager::onTouchBegan(Touch *touch, cocos2d::Event *event){
                         m_gui->disableAttackPosition();
                         m_player.at(i)->setState(CharacterState::Selected);
                         enemyNear(m_player.at(i)->getMapPos());
-                        m_world->changeTiles2(m_player.at(i)->getMapPos(), charactersPos,
+                        m_world->changeTiles(m_player.at(i)->getMapPos(), charactersPos,
                                               numPlayers, numEnemies,
                                               m_player.at(i)->getRange());
                         //cocos2d::log("Enemy Selectable");
@@ -241,11 +230,11 @@ bool MapManager::onTouchBegan(Touch *touch, cocos2d::Event *event){
             }
             for (unsigned int i = 0; i < numPlayers; i++) {
                 if (!selected) {
-                    cocos2d::log("aaaaaaaaaaaaaaaaaaa2 %f", static_cast<double>(i));
+                    //cocos2d::log("aaaaaaaaaaaaaaaaaaa2 %f", static_cast<double>(i));
                     if (m_player.at(i)->getState() == CharacterState::Selected) {
-                        cocos2d::log("aaaaaaaaaaaaaaaaaaa2 %f", static_cast<double>(i));
+                        //cocos2d::log("aaaaaaaaaaaaaaaaaaa2 %f", static_cast<double>(i));
                         if (checkCorrectPos(pos) && checkCorrectRange(pos)) {
-                            cocos2d::log("aaaaaaaaaaaaaaaaaaa2 %f", static_cast<double>(i));
+                            //cocos2d::log("aaaaaaaaaaaaaaaaaaa2 %f", static_cast<double>(i));
                             m_player.at(i)->setMapPos(pos);
                             charactersPos[0][i] = m_player.at(i)->getMapPos();
                             m_player.at(i)->setState(CharacterState::Attack);
@@ -253,7 +242,7 @@ bool MapManager::onTouchBegan(Touch *touch, cocos2d::Event *event){
                             enemyNear(m_player.at(i)->getMapPos());
                             m_gui->setCharacterTexture(characterSelect, lifeCharacterSelect);
                             m_world->initialTiles();
-                            cocos2d::log("isSelected1 ");
+                            //cocos2d::log("isSelected1 ");
                             //cocos2d::log("Enemy Selected");
                         } else if (enemyNear(m_player.at(i)->getMapPos())) {
                             m_world->initialTiles();
@@ -261,7 +250,7 @@ bool MapManager::onTouchBegan(Touch *touch, cocos2d::Event *event){
                             for (unsigned int j = 0; j < numEnemies; j++) {
                                 if (pos == m_enemy.at(j)->getMapPos() && enemyNearAttack(m_player.at(i)->getMapPos(),
                                                                                          m_enemy.at(j)->getMapPos())) {
-                                    cocos2d::log("attttttack1");
+                                    //cocos2d::log("attttttack1");
                                     attackPlayer(i, j, m_player.at(i)->getMapPos(),
                                                  m_enemy.at(j)->getMapPos());
                                     attacked = true;
@@ -280,7 +269,7 @@ bool MapManager::onTouchBegan(Touch *touch, cocos2d::Event *event){
                             if (pos == m_enemy.at(j)->getMapPos() &&
                                 enemyNear(m_player.at(i)->getMapPos()) && enemyNearAttack(m_player.at(i)->getMapPos(),
                                                                                          m_enemy.at(j)->getMapPos())) {
-                                cocos2d::log("attttttack2");
+                                //cocos2d::log("attttttack2");
                                 attackPlayer(i, j, m_player.at(i)->getMapPos(),
                                              m_enemy.at(j)->getMapPos());
                                 m_world->initialTiles();
@@ -296,7 +285,7 @@ bool MapManager::onTouchBegan(Touch *touch, cocos2d::Event *event){
                 }
             }
             if (!isSelected()) {
-                cocos2d::log("isSelected ");
+                //cocos2d::log("isSelected ");
                 m_world->initialTiles();
             }
 
@@ -305,7 +294,7 @@ bool MapManager::onTouchBegan(Touch *touch, cocos2d::Event *event){
                                                                                       (p2.y)))); //convertToWorldSpace convertToNodeSpace
             m_gui->updateGUI(idTile);
 
-            cocos2d::log("something1 %d", idTile);
+            //cocos2d::log("something1 %d", idTile);
 
             if (checkCharacterPos()) {
                 m_gui->setCharacterTexture(characterSelect, lifeCharacterSelect);
@@ -329,20 +318,20 @@ void MapManager::onTouchEnded(Touch *touch, cocos2d::Event *event){
 
 bool MapManager::checkCorrectPos(const Vec2& p){
 
-    cocos2d::log("checkCorrectPos %d", numPlayers);
-    cocos2d::log("checkCorrectPos %d", numEnemies);
-    cocos2d::log("checkCorrectPos %d", pos.x);
-    cocos2d::log("checkCorrectPos %d", pos.y);
+    //cocos2d::log("checkCorrectPos %d", numPlayers);
+    //cocos2d::log("checkCorrectPos %d", numEnemies);
+    //cocos2d::log("checkCorrectPos %d", pos.x);
+    //cocos2d::log("checkCorrectPos %d", pos.y);
 
     for (unsigned int i = 0; i < numPlayers; i++) {
         if (p == m_player.at(i)->getMapPos()) {
-            cocos2d::log("checkCorrectPos1");
+            //cocos2d::log("checkCorrectPos1");
             return false;
         }
     }
     for (unsigned int j = 0; j < numEnemies; j++) {
         if (p == m_enemy.at(j)->getMapPos()) {
-            cocos2d::log("checkCorrectPos2");
+            //cocos2d::log("checkCorrectPos2");
             return false;
         }
     }
@@ -356,8 +345,8 @@ bool MapManager::checkCorrectRange(const Vec2& p){
 
     for (unsigned int k = 0; k < m_world->getMoveMap().size(); k++) {
         if (p.x == m_world->getMoveMap().at(k)->x && p.y == 7-m_world->getMoveMap().at(k)->y) {
-            cocos2d::log("checkCorrectPos32 %f", m_world->getMoveMap().at(k)->x);
-            cocos2d::log("checkCorrectPos32 %f", m_world->getMoveMap().at(k)->y);
+            //cocos2d::log("checkCorrectPos32 %f", m_world->getMoveMap().at(k)->x);
+            //cocos2d::log("checkCorrectPos32 %f", m_world->getMoveMap().at(k)->y);
             correct = true;
         }
     }
@@ -401,14 +390,14 @@ bool MapManager::checkNextTurn(){
 
 bool MapManager::enemyNear(const Vec2& posPlayer){
 
-    cocos2d::log("Players4 %f", static_cast<double>(numPlayers));
+    //cocos2d::log("Players4 %f", static_cast<double>(numPlayers));
     bool pasa = false;
     for (unsigned int j = 0; j < numEnemies; j++) {
         if (posPlayer.x == m_enemy.at(j)->getMapPos().x - 1 ||
                 posPlayer.x == m_enemy.at(j)->getMapPos().x + 1 ||
                 posPlayer.y == m_enemy.at(j)->getMapPos().y - 1 ||
                 posPlayer.y == m_enemy.at(j)->getMapPos().y + 1) {
-            cocos2d::log("Players4 %f", static_cast<double>(j));
+            //cocos2d::log("Players4 %f", static_cast<double>(j));
             if ((posPlayer.y == m_enemy.at(j)->getMapPos().y &&
                 posPlayer.x == m_enemy.at(j)->getMapPos().x - 1) ||
                     (posPlayer.y == m_enemy.at(j)->getMapPos().y &&
@@ -419,7 +408,7 @@ bool MapManager::enemyNear(const Vec2& posPlayer){
                 posPlayer.x == m_enemy.at(j)->getMapPos().x)) {
                 m_gui->setAttackPosition(
                         Vec2(m_enemy.at(j)->getMapPos().x, m_enemy.at(j)->getMapPos().y));
-                cocos2d::log("Players45 %f", static_cast<double>(j));
+                //cocos2d::log("Players45 %f", static_cast<double>(j));
                 pasa = true;
             }
         }
@@ -433,7 +422,7 @@ bool MapManager::enemyNear(const Vec2& posPlayer){
 
 bool MapManager::enemyNearAttack(const Vec2& posPlayer, const Vec2& posEnemy){
 
-    cocos2d::log("Players4 %f", static_cast<double>(numPlayers));
+    //cocos2d::log("Players4 %f", static_cast<double>(numPlayers));
     bool pasa = false;
         if (posPlayer.x == posEnemy.x - 1 ||
             posPlayer.x == posEnemy.x + 1 ||
@@ -481,7 +470,7 @@ int MapManager::playerNear(const Vec2& posEnemy){
 
 bool MapManager::playerNearAttack(const Vec2& posEnemy, const Vec2& posPlayer){
 
-    cocos2d::log("Players4 %f", static_cast<double>(numPlayers));
+    //cocos2d::log("Players4 %f", static_cast<double>(numPlayers));
     bool pasa = false;
     if (posPlayer.x == posEnemy.x - 1 ||
         posPlayer.x == posEnemy.x + 1 ||
@@ -528,14 +517,12 @@ void MapManager::update(){
         //Director::getInstance()->getRunningScene()->removeAllChildrenWithCleanup(true);
         Director::getInstance()->replaceScene(
                 TransitionFadeUp::create(0.5f, MapManager::createScene()));
-        cocos2d::log("completedTRY %d", level);
+        //cocos2d::log("completedTRY %d", level);
         level = 0;
     }
     else if(m_gui->getNextLevel() == 1 && m_gui->getFinish()){
-        cocos2d::log("completedNEXT %d", level);
+        //cocos2d::log("completedNEXT %d", level);
             level = 1;
-            UserDefault *def = UserDefault::sharedUserDefault();
-            def->setIntegerForKey("level", 1);
             Director::getInstance()->replaceScene(
                     TransitionFadeUp::create(0.5f, MapManager::createScene()));
     }
@@ -543,7 +530,7 @@ void MapManager::update(){
     if(m_gui->getTurn()){
         turn = 1;
         m_gui->setTurn(false);
-        cocos2d::log("Turn %d", turn);
+        //cocos2d::log("Turn %d", turn);
     }
     if(turn == 0 && !m_gui->getFinish()){
         if(checkNextTurn()) {
@@ -557,7 +544,7 @@ void MapManager::update(){
     }
     if(turn == 1 && !m_gui->getFinish()){
         m_world->initialTiles();
-        cocos2d::log("Turn %d", turn);
+        //cocos2d::log("Turn %d", turn);
         turnEnemy();
         moveEnemies();
         turnPlayer();
@@ -587,50 +574,50 @@ void MapManager::attackPlayer(unsigned int player, unsigned int enemy, Vec2 posP
         randomPlayer = -randomPlayer;
     }
 
-    cocos2d::log("Def %d", defPlayer);
-    cocos2d::log("Def %d", defEnemy);
-    cocos2d::log("Random %d", randomEnemy);
-    cocos2d::log("Random %d", randomPlayer);
+    //cocos2d::log("Def %d", defPlayer);
+    //cocos2d::log("Def %d", defEnemy);
+    //cocos2d::log("Random %d", randomEnemy);
+    //cocos2d::log("Random %d", randomPlayer);
 
-    cocos2d::log("Life %f", m_player.at(player)->getDamage(m_enemy.at(enemy)->getCharacterType()));
-    cocos2d::log("Life %d", m_enemy.at(enemy)->getLife());
+    //cocos2d::log("Life %f", m_player.at(player)->getDamage(m_enemy.at(enemy)->getCharacterType()));
+    //cocos2d::log("Life %d", m_enemy.at(enemy)->getLife());
 
     float damagePlayerToEnemy = m_player.at(player)->getDamage(m_enemy.at(enemy)->getCharacterType())*m_player.at(player)->getLife();
-    cocos2d::log("Damage %f", damagePlayerToEnemy);
-    cocos2d::log("Def %f", (diffPlayer * damagePlayerToEnemy) / 100);
+    //cocos2d::log("Damage %f", damagePlayerToEnemy);
+    //cocos2d::log("Def %f", (diffPlayer * damagePlayerToEnemy) / 100);
     damagePlayerToEnemy = damagePlayerToEnemy + ((diffPlayer * damagePlayerToEnemy) / 100);
     if(damagePlayerToEnemy > 5) {
         m_enemy.at(enemy)->setLifeLabel(
                 m_enemy.at(enemy)->getLife() - damagePlayerToEnemy + randomEnemy);
-        cocos2d::log("Damage2 %f", m_enemy.at(enemy)->getLife() - damagePlayerToEnemy + randomEnemy);
+        //cocos2d::log("Damage2 %f", m_enemy.at(enemy)->getLife() - damagePlayerToEnemy + randomEnemy);
     }
     else{
-        cocos2d::log("Damage3 %f", m_enemy.at(enemy)->getLife() - damagePlayerToEnemy);
+        //cocos2d::log("Damage3 %f", m_enemy.at(enemy)->getLife() - damagePlayerToEnemy);
         m_enemy.at(enemy)->setLifeLabel(
                 m_enemy.at(enemy)->getLife() - damagePlayerToEnemy);
     }
 
-    cocos2d::log("Life %f", m_enemy.at(enemy)->getDamage(m_player.at(player)->getCharacterType()));
-    cocos2d::log("Life %d", m_player.at(player)->getLife());
+    //cocos2d::log("Life %f", m_enemy.at(enemy)->getDamage(m_player.at(player)->getCharacterType()));
+    //cocos2d::log("Life %d", m_player.at(player)->getLife());
     float damageEnemyToPlayer = m_enemy.at(enemy)->getDamage(m_player.at(player)->getCharacterType())*m_enemy.at(enemy)->getLife();
-    cocos2d::log("Damage %f", damageEnemyToPlayer);
-    cocos2d::log("Def %f", (diffEnemy * damageEnemyToPlayer) / 100);
+    //cocos2d::log("Damage %f", damageEnemyToPlayer);
+    //cocos2d::log("Def %f", (diffEnemy * damageEnemyToPlayer) / 100);
     damageEnemyToPlayer = damageEnemyToPlayer + ((diffEnemy * damageEnemyToPlayer) / 100);
     if(damageEnemyToPlayer > 5) {
         m_player.at(player)->setLifeLabel(
                 m_player.at(player)->getLife() - damageEnemyToPlayer + randomPlayer);
-        cocos2d::log("Damage %f", damageEnemyToPlayer + randomPlayer);
+        //cocos2d::log("Damage %f", damageEnemyToPlayer + randomPlayer);
     }
     else{
         m_player.at(player)->setLifeLabel(
                 m_player.at(player)->getLife() - damageEnemyToPlayer);
     }
 
-    cocos2d::log("Life %f", damagePlayerToEnemy);
-    cocos2d::log("Life %d", randomEnemy);
-    cocos2d::log("Life %f", damageEnemyToPlayer);
-    cocos2d::log("Life %d", randomPlayer);
-    cocos2d::log("Life %d", m_enemy.at(enemy)->getLife());
+    //cocos2d::log("Life %f", damagePlayerToEnemy);
+    //cocos2d::log("Life %d", randomEnemy);
+    //cocos2d::log("Life %f", damageEnemyToPlayer);
+    //cocos2d::log("Life %d", randomPlayer);
+    //cocos2d::log("Life %d", m_enemy.at(enemy)->getLife());
 
     m_player.at(player)->setState(CharacterState::UnSelectable);
     m_gui->disableAttackPosition();
@@ -646,7 +633,7 @@ void MapManager::attackPlayer(unsigned int player, unsigned int enemy, Vec2 posP
             m_gui->showFinishMenu(true);
         }
         charactersPos[1][enemy] = Vec2(-1,-1);
-        cocos2d::log("Size %d", m_enemy.size());
+        //cocos2d::log("Size %d", m_enemy.size());
     }
 
     if(m_player.at(player)->getLife() <= 0){
@@ -659,7 +646,7 @@ void MapManager::attackPlayer(unsigned int player, unsigned int enemy, Vec2 posP
             m_gui->showFinishMenu(false);
         }
         charactersPos[0][player] = Vec2(-1,-1);
-        cocos2d::log("Size %d", m_player.size());
+        //cocos2d::log("Size %d", m_player.size());
     }
 
 }
@@ -686,49 +673,49 @@ void MapManager::attackEnemy(unsigned int player, unsigned int enemy, Vec2 posP,
         randomPlayer = -randomPlayer;
     }
 
-    cocos2d::log("Def %d", defPlayer);
-    cocos2d::log("Def %d", defEnemy);
-    cocos2d::log("Random %d", randomEnemy);
-    cocos2d::log("Random %d", randomPlayer);
+    //cocos2d::log("Def %d", defPlayer);
+    //cocos2d::log("Def %d", defEnemy);
+    //cocos2d::log("Random %d", randomEnemy);
+    //cocos2d::log("Random %d", randomPlayer);
 
-    cocos2d::log("Life %f", m_enemy.at(enemy)->getDamage(m_player.at(player)->getCharacterType()));
-    cocos2d::log("Life %d", m_player.at(player)->getLife());
+    //cocos2d::log("Life %f", m_enemy.at(enemy)->getDamage(m_player.at(player)->getCharacterType()));
+    //cocos2d::log("Life %d", m_player.at(player)->getLife());
     float damageEnemyToPlayer = m_enemy.at(enemy)->getDamage(m_player.at(player)->getCharacterType())*m_enemy.at(enemy)->getLife();
-    cocos2d::log("Damage %f", damageEnemyToPlayer);
-    cocos2d::log("Def %f", (diffEnemy * damageEnemyToPlayer) / 100);
+    //cocos2d::log("Damage %f", damageEnemyToPlayer);
+    //cocos2d::log("Def %f", (diffEnemy * damageEnemyToPlayer) / 100);
     damageEnemyToPlayer = damageEnemyToPlayer + ((diffEnemy * damageEnemyToPlayer) / 100);
     if(damageEnemyToPlayer > 5) {
         m_player.at(player)->setLifeLabel(
                 m_player.at(player)->getLife() - damageEnemyToPlayer + randomPlayer);
-        cocos2d::log("Damage %f", damageEnemyToPlayer + randomPlayer);
+        //cocos2d::log("Damage %f", damageEnemyToPlayer + randomPlayer);
     }
     else{
         m_player.at(player)->setLifeLabel(
                 m_player.at(player)->getLife() - damageEnemyToPlayer);
     }
 
-    cocos2d::log("Life %f", m_player.at(player)->getDamage(m_enemy.at(enemy)->getCharacterType()));
-    cocos2d::log("Life %d", m_enemy.at(enemy)->getLife());
+    //cocos2d::log("Life %f", m_player.at(player)->getDamage(m_enemy.at(enemy)->getCharacterType()));
+    //cocos2d::log("Life %d", m_enemy.at(enemy)->getLife());
 
     float damagePlayerToEnemy = m_player.at(player)->getDamage(m_enemy.at(enemy)->getCharacterType())*m_player.at(player)->getLife();
-    cocos2d::log("Damage %f", damagePlayerToEnemy);
-    cocos2d::log("Def %f", (diffPlayer * damagePlayerToEnemy) / 100);
+    //cocos2d::log("Damage %f", damagePlayerToEnemy);
+    //cocos2d::log("Def %f", (diffPlayer * damagePlayerToEnemy) / 100);
     damagePlayerToEnemy = damagePlayerToEnemy + ((diffPlayer * damagePlayerToEnemy) / 100);
     if(damagePlayerToEnemy > 5) {
         m_enemy.at(enemy)->setLifeLabel(
                 m_enemy.at(enemy)->getLife() - damagePlayerToEnemy + randomEnemy);
-        cocos2d::log("Damage %f", damagePlayerToEnemy + randomEnemy);
+        //cocos2d::log("Damage %f", damagePlayerToEnemy + randomEnemy);
     }
     else{
         m_enemy.at(enemy)->setLifeLabel(
                 m_enemy.at(enemy)->getLife() - damagePlayerToEnemy);
     }
 
-    cocos2d::log("Life %f", damagePlayerToEnemy);
-    cocos2d::log("Life %d", randomEnemy);
-    cocos2d::log("Life %f", damageEnemyToPlayer);
-    cocos2d::log("Life %d", randomPlayer);
-    cocos2d::log("Life %d", m_enemy.at(enemy)->getLife());
+    //cocos2d::log("Life %f", damagePlayerToEnemy);
+    //cocos2d::log("Life %d", randomEnemy);
+    //cocos2d::log("Life %f", damageEnemyToPlayer);
+    //cocos2d::log("Life %d", randomPlayer);
+    //cocos2d::log("Life %d", m_enemy.at(enemy)->getLife());
 
     m_player.at(player)->setState(CharacterState::UnSelectable);
     m_gui->disableAttackPosition();
@@ -744,7 +731,7 @@ void MapManager::attackEnemy(unsigned int player, unsigned int enemy, Vec2 posP,
             m_gui->showFinishMenu(true);
         }
         charactersPos[1][enemy] = Vec2(-1,-1);
-        cocos2d::log("Size %d", m_enemy.size());
+        //cocos2d::log("Size %d", m_enemy.size());
     }
 
     if(m_player.at(player)->getLife() <= 0){
@@ -757,26 +744,26 @@ void MapManager::attackEnemy(unsigned int player, unsigned int enemy, Vec2 posP,
             m_gui->showFinishMenu(false);
         }
         charactersPos[0][player] = Vec2(-1,-1);
-        cocos2d::log("Size %d", m_player.size());
+        //cocos2d::log("Size %d", m_player.size());
     }
 
 }
 
 void MapManager::moveEnemies(){
-    cocos2d::log("Enemy Move ");
+    //cocos2d::log("Enemy Move ");
     for (unsigned int j = 0; j < numEnemies; j++) {
         if(m_enemy.at(j)->getState() == CharacterState::Selectable) {
             int def = m_world->getDefenseAt(m_enemy.at(j)->getMapPos().x, m_enemy.at(j)->getMapPos().y);
             bool pasa = false, pasa1 = false, pasa2 = false, pasa3 = false, pasa4 = false, attacked = false;
             Point newPos;
             int k = 0;
-            cocos2d::log("Enemy Move %i", j);
-            cocos2d::log("Enemy Move %i", def);
-            cocos2d::log("Enemy Move %f", m_enemy.at(j)->getMapPos().x);
-            cocos2d::log("Enemy Move %f", m_enemy.at(j)->getMapPos().y);
+            //cocos2d::log("Enemy Move %i", j);
+            //cocos2d::log("Enemy Move %i", def);
+            //cocos2d::log("Enemy Move %f", m_enemy.at(j)->getMapPos().x);
+            //cocos2d::log("Enemy Move %f", m_enemy.at(j)->getMapPos().y);
             int player = playerNear(m_enemy.at(j)->getMapPos());
             if (player != -1) {
-                cocos2d::log("Enemy Move Attack %i", player);
+                //cocos2d::log("Enemy Move Attack %i", player);
                 attackEnemy(player, j, m_player.at(player)->getMapPos(), m_enemy.at(j)->getMapPos());
                 attacked = true;
             }
@@ -785,24 +772,24 @@ void MapManager::moveEnemies(){
                     k = 0;
                     for (unsigned int i = 0; i < 4; i++) {
                         int random = rand() % 4;
-                        cocos2d::log("Enemy Move Random %i", j);
-                        cocos2d::log("Enemy Move Random %i", random);
-                        cocos2d::log("Enemy Move Random %i", def);
-                        cocos2d::log("Enemy Move Random %i", k);
-                        cocos2d::log("Enemy Move Random %i",
-                                     m_world->getDefenseAt(m_enemy.at(j)->getMapPos().x + 1,
-                                                           m_enemy.at(j)->getMapPos().y));
+                        //cocos2d::log("Enemy Move Random %i", j);
+                        //cocos2d::log("Enemy Move Random %i", random);
+                        //cocos2d::log("Enemy Move Random %i", def);
+                        //cocos2d::log("Enemy Move Random %i", k);
+                        //cocos2d::log("Enemy Move Random %i",
+                        //             m_world->getDefenseAt(m_enemy.at(j)->getMapPos().x + 1,
+                        //                                   m_enemy.at(j)->getMapPos().y));
                         if (random == 0 && m_enemy.at(j)->getMapPos().x + 1 > -1 &&
                             m_enemy.at(j)->getMapPos().x + 1 < 8
                             && m_enemy.at(j)->getMapPos().y > -1 &&
                             m_enemy.at(j)->getMapPos().y < 8 &&
                             m_world->getDefenseAt(m_enemy.at(j)->getMapPos().x + 1,
                                                   m_enemy.at(j)->getMapPos().y) > def - k) {
-                            cocos2d::log("Enemy Move1 %f", m_enemy.at(j)->getMapPos().x + 1);
-                            cocos2d::log("Enemy Move1 %f", m_enemy.at(j)->getMapPos().y);
-                            cocos2d::log("Enemy Move1 %i",
-                                         m_world->getDefenseAt(m_enemy.at(j)->getMapPos().x + 1,
-                                                               m_enemy.at(j)->getMapPos().y));
+                            //cocos2d::log("Enemy Move1 %f", m_enemy.at(j)->getMapPos().x + 1);
+                            //cocos2d::log("Enemy Move1 %f", m_enemy.at(j)->getMapPos().y);
+                            //cocos2d::log("Enemy Move1 %i",
+                            //             m_world->getDefenseAt(m_enemy.at(j)->getMapPos().x + 1,
+                            //                                   m_enemy.at(j)->getMapPos().y));
                             newPos = Point(m_enemy.at(j)->getMapPos().x + 1,
                                            m_enemy.at(j)->getMapPos().y);
                             pasa1 = true;
@@ -813,11 +800,11 @@ void MapManager::moveEnemies(){
                                    m_world->getDefenseAt(m_enemy.at(j)->getMapPos().x,
                                                          m_enemy.at(j)->getMapPos().y + 1) >
                                    def - k) {
-                            cocos2d::log("Enemy Move2 %f", m_enemy.at(j)->getMapPos().x);
-                            cocos2d::log("Enemy Move2 %f", m_enemy.at(j)->getMapPos().y + 1);
-                            cocos2d::log("Enemy Move2 %i",
-                                         m_world->getDefenseAt(m_enemy.at(j)->getMapPos().x,
-                                                               m_enemy.at(j)->getMapPos().y + 1));
+                            //cocos2d::log("Enemy Move2 %f", m_enemy.at(j)->getMapPos().x);
+                            //cocos2d::log("Enemy Move2 %f", m_enemy.at(j)->getMapPos().y + 1);
+                            //cocos2d::log("Enemy Move2 %i",
+                            //             m_world->getDefenseAt(m_enemy.at(j)->getMapPos().x,
+                            //                                   m_enemy.at(j)->getMapPos().y + 1));
                             newPos = Point(m_enemy.at(j)->getMapPos().x,
                                            m_enemy.at(j)->getMapPos().y + 1);
                             pasa2 = true;
@@ -827,11 +814,11 @@ void MapManager::moveEnemies(){
                                    m_enemy.at(j)->getMapPos().y < 8 &&
                                    m_world->getDefenseAt(m_enemy.at(j)->getMapPos().x - 1,
                                                          m_enemy.at(j)->getMapPos().y) > def - k) {
-                            cocos2d::log("Enemy Move3 %f", m_enemy.at(j)->getMapPos().x - 1);
-                            cocos2d::log("Enemy Move3 %f", m_enemy.at(j)->getMapPos().y);
-                            cocos2d::log("Enemy Move1 %i",
-                                         m_world->getDefenseAt(m_enemy.at(j)->getMapPos().x - 1,
-                                                               m_enemy.at(j)->getMapPos().y));
+                            //cocos2d::log("Enemy Move3 %f", m_enemy.at(j)->getMapPos().x - 1);
+                            //cocos2d::log("Enemy Move3 %f", m_enemy.at(j)->getMapPos().y);
+                            //cocos2d::log("Enemy Move1 %i",
+                            //            m_world->getDefenseAt(m_enemy.at(j)->getMapPos().x - 1,
+                            //                                  m_enemy.at(j)->getMapPos().y));
                             newPos = Point(m_enemy.at(j)->getMapPos().x - 1,
                                            m_enemy.at(j)->getMapPos().y);
                             pasa3 = true;
@@ -842,11 +829,11 @@ void MapManager::moveEnemies(){
                                    m_world->getDefenseAt(m_enemy.at(j)->getMapPos().x,
                                                          m_enemy.at(j)->getMapPos().y - 1) >
                                    def - k) {
-                            cocos2d::log("Enemy Move4 %f", m_enemy.at(j)->getMapPos().x);
-                            cocos2d::log("Enemy Move4 %f", m_enemy.at(j)->getMapPos().y - 1);
-                            cocos2d::log("Enemy Move1 %i",
-                                         m_world->getDefenseAt(m_enemy.at(j)->getMapPos().x,
-                                                               m_enemy.at(j)->getMapPos().y - 1));
+                            //cocos2d::log("Enemy Move4 %f", m_enemy.at(j)->getMapPos().x);
+                            //cocos2d::log("Enemy Move4 %f", m_enemy.at(j)->getMapPos().y - 1);
+                            //cocos2d::log("Enemy Move1 %i",
+                            //            m_world->getDefenseAt(m_enemy.at(j)->getMapPos().x,
+                            //                                  m_enemy.at(j)->getMapPos().y - 1));
                             newPos = Point(m_enemy.at(j)->getMapPos().x,
                                            m_enemy.at(j)->getMapPos().y - 1);
                             pasa4 = true;
@@ -859,12 +846,12 @@ void MapManager::moveEnemies(){
                             k++;
                         }
                         if (pasa && checkCorrectPos(newPos)) {
-                            cocos2d::log("Enemy Move6 %f", newPos.x);
-                            cocos2d::log("Enemy Move6 %f", newPos.y);
+                            //cocos2d::log("Enemy Move6 %f", newPos.x);
+                            //cocos2d::log("Enemy Move6 %f", newPos.y);
                             m_enemy.at(j)->setState(CharacterState::Selected);
                             m_enemy.at(j)->setMapPos(newPos);
-                            cocos2d::log("Enemy Move6 %f", m_enemy.at(j)->getMapPos().x);
-                            cocos2d::log("Enemy Move6 %f", m_enemy.at(j)->getMapPos().y);
+                            //cocos2d::log("Enemy Move6 %f", m_enemy.at(j)->getMapPos().x);
+                            //cocos2d::log("Enemy Move6 %f", m_enemy.at(j)->getMapPos().y);
                             pasa = false;
                             pasa1 = false;
                             pasa2 = false;
@@ -928,21 +915,21 @@ void MapManager::publicSelectPlayer(MapManager* m, int player)
 {
 
     if(!m->m_gui->getFinish() && !m->m_gui->getPause()) {
-        cocos2d::log("Players select %f", static_cast<double>(m->numPlayers));
-        cocos2d::log("Players select %f", static_cast<double>(player));
+        //cocos2d::log("Players select %f", static_cast<double>(m->numPlayers));
+        //cocos2d::log("Players select %f", static_cast<double>(player));
         if (m->m_player.at(player)->getState() == CharacterState::Selectable ||
             m->m_player.at(player)->getState() == CharacterState::UnSelected ||
             m->m_player.at(player)->getState() == CharacterState::Attack) {
 
-            cocos2d::log("Players select %f", static_cast<double>(player));
+            //cocos2d::log("Players select %f", static_cast<double>(player));
             m->unselectOthers();
-            cocos2d::log("Players select %f", static_cast<double>(player));
+            //cocos2d::log("Players select %f", static_cast<double>(player));
             m->m_gui->disableAttackPosition();
-            cocos2d::log("Players select %f", static_cast<double>(player));
+            //cocos2d::log("Players select %f", static_cast<double>(player));
 
             m->m_player.at(player)->setState(CharacterState::Selected);
             m->enemyNear(m->m_player.at(player)->getMapPos());
-            m->m_world->changeTiles2(m->m_player.at(player)->getMapPos(), m->charactersPos,
+            m->m_world->changeTiles(m->m_player.at(player)->getMapPos(), m->charactersPos,
                                      m->numPlayers, m->numEnemies,
                                      m->m_player.at(player)->getRange());
         }
@@ -957,11 +944,11 @@ void MapManager::publicMove(MapManager* m, int player, int x, int y)
     if(!m->m_gui->getFinish() && !m->m_gui->getPause()) {
         m->pos = Point(y - 1, x - 1);
 
-        cocos2d::log("Players move  %f", static_cast<double>(m->numPlayers));
-        cocos2d::log("Players move %f", static_cast<double>(player));
+        //cocos2d::log("Players move  %f", static_cast<double>(m->numPlayers));
+        //cocos2d::log("Players move %f", static_cast<double>(player));
         if (m->m_player.at(player)->getState() == CharacterState::Selected) {
             if (m->checkCorrectPos(m->pos) && m->checkCorrectRange(m->pos)) {
-                cocos2d::log("Players move %f", static_cast<double>(player));
+                //cocos2d::log("Players move %f", static_cast<double>(player));
                 m->m_player.at(player)->setMapPos(m->pos);
                 m->m_world->initialTiles();
                 m->m_player.at(player)->setState(CharacterState::Attack);
@@ -983,8 +970,8 @@ void MapManager::publicAttack(int player, int x, int y)
     if(!m_gui->getFinish() && !m_gui->getPause()) {
         pos = Point(y - 1, x - 1);
 
-        cocos2d::log("Players attack  %f", static_cast<double>(numPlayers));
-        cocos2d::log("Players attack %f", static_cast<double>(player));
+        //cocos2d::log("Players attack  %f", static_cast<double>(numPlayers));
+        //cocos2d::log("Players attack %f", static_cast<double>(player));
         if (m_player.at(player)->getState() == CharacterState::Attack) {
             bool attacked = false;
             for (unsigned int j = 0; j < numEnemies; j++) {
@@ -1027,6 +1014,6 @@ void MapManager::unselectOthers()
 }
 
 void MapManager::getMP(MapManager *m){
-    cocos2d::log("getClass");
+    //cocos2d::log("getClass");
     mp = m;
 }

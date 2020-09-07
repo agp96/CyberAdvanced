@@ -17,7 +17,6 @@ public:
 
     void update(float delta);
     void setLevel(int lvl);
-    void loadLevel(int lvl);
 
     int getTileGIDAtPosition(const Point &tileCoords);
     Point tileCoordForPosition(const Vec2& position);
@@ -26,8 +25,7 @@ public:
     Texture2D* getTileAt(const Point &tileCoords);
     Size getTileSize();
 
-    void changeTiles(const Vec2 &posPlayer, const Vec2 charactersPos[2][5], const int &type, const int &range);
-    void changeTiles2(const Vec2 &posPlayer, const Vec2 charactersPos[2][5], const int &numPlayers, const int &numEnemies, const int &range);
+    void changeTiles(const Vec2 &posPlayer, const Vec2 charactersPos[2][5], const int &numPlayers, const int &numEnemies, const int &range);
     void initialTiles();
 
     int getDefenseAt(int x, int y);

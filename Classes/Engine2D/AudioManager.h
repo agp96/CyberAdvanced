@@ -12,9 +12,6 @@ class AudioManager {
 public:
     static AudioManager* getInstance();
 
-    void cambiarEstado(int cambiaEstado);
-    int getEstado();
-
     void initAudio();
 
     static void stopMusic();

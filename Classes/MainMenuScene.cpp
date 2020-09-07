@@ -7,7 +7,7 @@
 #include "OptionsMenuScene.h"
 #include "MapManager.h"
 #include "Engine2D/AudioManager.h"
-#include "Fachada.h"
+#include "GameData.h"
 #include "Game.h"
 
 USING_NS_CC;
@@ -37,7 +37,7 @@ bool MainMenuScene::init()
         return false;
     }
 
-    Fachada::getInstance()->cambiarEstado(0);
+    GameData::getInstance()->cambiarEstado(0);
     AudioManager::getInstance()->initAudio();
 
     auto _listener = EventListenerCustom::create("game_custom_event1", [=](EventCustom* event){
@@ -53,10 +53,10 @@ bool MainMenuScene::init()
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    auto backgroundSprite = Sprite::create( "gameplayBackground.png" );
-    backgroundSprite->setPosition( Point( visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y ) );
+    //auto backgroundSprite = Sprite::create( "gameplayBackground.png" );
+    //backgroundSprite->setPosition( Point( visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y ) );
 
-    this->addChild( backgroundSprite );
+    //this->addChild( backgroundSprite );
 
     auto cielo = LayerGradient::create(Color4B(110,62,167,255),Color4B(73,10,206,255));
     cielo->setContentSize(Size(3392+500, visibleSize.height/2+200));

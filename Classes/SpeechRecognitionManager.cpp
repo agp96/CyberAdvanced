@@ -51,14 +51,14 @@ extern "C"
 JNIEXPORT jint JNICALL
 Java_org_cocos2dx_cpp_SpeechRecognitionManager_getEstado(JNIEnv *env, jobject thiz) {
     // TODO: implement getEstado()
-    return Fachada::getInstance()->getEstado();
+    return GameData::getInstance()->getEstado();
 }
 
 extern "C"
 JNIEXPORT void JNICALL
 Java_org_cocos2dx_cpp_SpeechRecognitionManager_callCppCallback(JNIEnv *env, jobject clazz, jint numWord, jint x, jint y) {
     // TODO: implement callCppCallback()
-    int estado = Fachada::getInstance()->getEstado();
+    int estado = GameData::getInstance()->getEstado();
     cocos2d::log("Callback %i",estado);
     Ref* a;
     if(estado == 0){

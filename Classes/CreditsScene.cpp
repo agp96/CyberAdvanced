@@ -5,7 +5,7 @@
 #include "CreditsScene.h"
 #include "OptionsMenuScene.h"
 #include "Engine2D/AudioManager.h"
-#include "Fachada.h"
+#include "GameData.h"
 #include "Definitions.h"
 
 Sprite* CreditsScene::easterEggSprite;
@@ -15,17 +15,9 @@ Scene* CreditsScene::createScene()
     return CreditsScene::create();
 }
 
-// Print useful error message instead of segfaulting when files are not there.
-static void problemLoading(const char* filename)
-{
-    printf("Error while loading: %s\n", filename);
-    printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
-}
-
-// on "init" you need to initialize your instance
 bool CreditsScene::init()
 {
-    Fachada::getInstance()->cambiarEstado(2);
+    GameData::getInstance()->cambiarEstado(2);
 
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();

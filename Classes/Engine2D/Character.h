@@ -6,10 +6,6 @@
 
 #define DEBUG false
 
-#define ACTION_ANIM     001
-#define ACTION_JUMP     002
-#define ACTION_BLINK    003
-
 #include "GameManager.h"
 
 enum CharacterState {
@@ -58,9 +54,7 @@ protected:
     int life = 100;
     float damage[8];
     int range;
-
     Vec2 pos;
-
 
 };
 

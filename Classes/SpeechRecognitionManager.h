@@ -19,7 +19,7 @@
 #include "GUI.h"
 #include "OptionsMenuScene.h"
 #include "CreditsScene.h"
-#include "Fachada.h"
+#include "GameData.h"
 
 #endif
 class SpeechRecognitionManager{

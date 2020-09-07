@@ -37,9 +37,7 @@ public:
 
     CREATE_FUNC(TiledMapHelper);
 
-
 private:
-
     TMXTiledMap *m_tiledmap;
     TMXLayer *m_layer;
     TMXLayer *m_forest;
@@ -49,7 +47,6 @@ private:
     TMXLayer *m_house;
     TMXLayer *m_bridge;
     TMXLayer *m_sea;
-
 
 };
 

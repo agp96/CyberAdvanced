@@ -15,7 +15,6 @@ public:
 
     virtual bool init();
 
-    // implement the "static create()" method manually
     CREATE_FUNC(CreditsScene);
 
     static void publicGoToOptionsMenuScene();

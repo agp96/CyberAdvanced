@@ -8,7 +8,6 @@
 
 
 bool World::init(){
-    cocos2d::log("World2");
     GameEntity::init();
 
     m_tiledMapHelper = TiledMapHelper::create();
@@ -18,65 +17,37 @@ bool World::init(){
 
 void World::preloadResources(){
 
-    cocos2d::log("World %d", lvl);
     if(lvl == 0) {
-        cocos2d::log("World %d", lvl);
         m_tiledMapHelper->loadTileMap("map2.tmx", "suelo", 0);
-        cocos2d::log("World %d", lvl);
     }
     else if(lvl == 1) {
-        cocos2d::log("World %d", lvl);
         m_tiledMapHelper->loadTileMap("map3.tmx", "suelo", 0);
     }
-    cocos2d::log("World3");
 }
 
 void World::setLevel(int l){
 
     lvl = l;
-    cocos2d::log("WorldSET");
     if(lvl == 0) {
-        cocos2d::log("World %d", lvl);
         m_tiledMapHelper->loadTileMap("map2.tmx", "suelo", 0);
-        cocos2d::log("World %d", lvl);
     }
     else if(lvl == 1) {
-        cocos2d::log("World %d", lvl);
         m_tiledMapHelper->loadTileMap("map3.tmx", "suelo", 0);
-    }
-}
-
-void World::loadLevel(int l){
-
-    cocos2d::log("completed8 %d", l);
-    if(l == 0) {
-        m_tiledMapHelper->loadTileMap("map2.tmx", "suelo", 0);
-        lvl = l;
-    }
-    else if(l == 1) {
-        lvl = l;
-        cocos2d::log("completed82 %d", l);
-        m_tiledMapHelper->loadTileMap("map3.tmx", "suelo", 0);
-        //Añado el tiledmap
-        //m_node = NULL;
-        //getNode();
     }
 }
 
 Node* World::getNode(){
 
-    cocos2d::log("World4");
     if(m_node==NULL) {
         m_node = Node::create();
         auto visibleSize = Director::getInstance()->getVisibleSize();
         auto origin = Director::getInstance()->getVisibleOrigin();
 
-        cocos2d::log("SIZEEEEEEEE %f", visibleSize.height);
-        cocos2d::log("SIZEEEEEEEE %f", visibleSize.width);
+        //cocos2d::log("SIZEEEEEEEE %f", visibleSize.height);
+        //cocos2d::log("SIZEEEEEEEE %f", visibleSize.width);
 
         int k = 0;
         map = reinterpret_cast<int *>(m_tiledMapHelper->getMainLayer()->getTiles());
-        cocos2d::log("World45");
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 tiles_map[i][j] = map[k];
@@ -103,7 +74,6 @@ Node* World::getNode(){
             }
         }
 
-        cocos2d::log("World5");
         auto fondo = LayerGradient::create(Color4B(110, 62, 167, 255), Color4B(73, 10, 206, 255));
         fondo->setContentSize(Size(3392 + 500, visibleSize.height / 2 + 200));
         fondo->setPosition(-500, visibleSize.height / 2 - 170);
@@ -206,8 +176,6 @@ Node* World::getNode(){
         labelsquare9->setColor(Color3B::BLACK);
         m_node->addChild(labelsquare9, 1);
 
-
-        cocos2d::log("World6");
         m_tiledMapHelper->getTiledMap()->setPositionX(POSITION_X_MAP);
         m_tiledMapHelper->getTiledMap()->setPositionY(visibleSize.height - POSITION_Y_MAP - 256);
         m_tiledMapHelper->getTiledMap()->setScale(CC_CONTENT_SCALE_FACTOR());
@@ -216,7 +184,6 @@ Node* World::getNode(){
         //Añado el tiledmap
         m_node->addChild(m_tiledMapHelper->getTiledMap());
 
-        cocos2d::log("World");
     }
 
     return m_node;
@@ -268,68 +235,15 @@ Size World::getTileSize(){
 void World::update(float delta){
 }
 
-void World::changeTiles(const Vec2 &posPlayer, const Vec2 charactersPos[2][5], const int &type, const int &range) {
-    auto suelo = m_tiledMapHelper->getTiledMap()->getLayer("suelo");
-    int x = posPlayer.x+2, y = posPlayer.y, maxY = 2;
-    bool pasa = true;
-    if (m_tiledMapHelper->isTileCoordInMap(posPlayer)) {
-        cocos2d::log("Pos2 s %d", x);
-        cocos2d::log("Pos3 s %d", y);
-            for (int c2=0; c2 < 8;c2++){
-                pasa = true;
-                //if (tablero[f2][c2]!=9){ //Si no es bomba
-                if (y>=0 && x>=0) {
-                    for (int i=0; i < 2;i++){
-                        for (int j=0; j < 5;j++) {
-                            if (charactersPos[i][j] == Vec2(x,y)) {
-                                pasa = false;
-                            }
-                        }
-                    }
-                    if (pasa == true && x < 8 && x > -1 && y < 8 && y > -1) {
-                        suelo->setTileGID(m_tiledMapHelper->getTileGIDAt(Vec2(x, 7 - y)) + 48,
-                                          Vec2(x, 7 - y));
-                    }
-                }
-                if (x-posPlayer.x>0) {
-                    y += 1;
-                    x -= 1;
-                    cocos2d::log("1111111");
-                }
-                else if (x-posPlayer.x>-1){
-                    y -= 1;
-                    x -= 1;
-                    cocos2d::log("22222222");
-                }
-                else{
-                    y -= 1;
-                    x += 1;
-                    cocos2d::log("33333333");
-                }
-            }
-
-        //for (unsigned int i = 1; i < range + 1; i++) {
-        //    if (m_tiledMapHelper->isTileCoordInMap(Vec2(posPlayer.x + i, posPlayer.y + i))) {
-        //        int gidSuelo = suelo->getTileGIDAt(posPlayer);
-        //        if (gidSuelo != 0) {
-        //if (m_tiledMapHelper->isTileCoordInMap(Vec2(posPlayer.x, 7 - (posPlayer.y + 1)))) {
-          //  suelo->setTileGID(m_tiledMapHelper->getTileGIDAt(Vec2(posPlayer.x, 7 - (posPlayer.y + 1)))+32, Vec2(posPlayer.x, 7 - (posPlayer.y + 1)));
-        //}
-        //        }
-        //    }
-        //}
-    }
-}
-
-void World::changeTiles2(const Vec2 &posPlayer, const Vec2 charactersPos[2][5], const int &numPlayers, const int &numEnemies, const int &range) {
+void World::changeTiles(const Vec2 &posPlayer, const Vec2 charactersPos[2][5], const int &numPlayers, const int &numEnemies, const int &range) {
     auto suelo = m_tiledMapHelper->getTiledMap()->getLayer("suelo");
     int x = posPlayer.x+1, y = 8-posPlayer.y, maxY = 2;
     if (m_tiledMapHelper->isTileCoordInMap(posPlayer)) {
         for (int c2=0; c2 < 9;c2++){
             if(c2 < y) {
                 if (c2 == y - range) {
-                    cocos2d::log("Pos41 s %d", x-1);
-                    cocos2d::log("Pos41 s %d", y - 1 - range);
+                    //cocos2d::log("Pos41 s %d", x-1);
+                    //cocos2d::log("Pos41 s %d", y - 1 - range);
                     if (x - 1 > -1 && x - 1 < 8 && y - 1 - range > -1 &&
                         y - 1 - range < 8 && weight_map[y - 1 - range][x - 1] < 2) {
                         bool pasa = false;
@@ -356,8 +270,8 @@ void World::changeTiles2(const Vec2 &posPlayer, const Vec2 charactersPos[2][5], 
                     }
                 }
                 if (c2 == y - range + 1) {
-                    cocos2d::log("Pos42 s %d", x);
-                    cocos2d::log("Pos42 s %d", y);
+                    //cocos2d::log("Pos42 s %d", x);
+                    //cocos2d::log("Pos42 s %d", y);
                     int i = -2;
                     for (int c3 = 0; c3 < 3; c3++) {
                         i++;
@@ -387,9 +301,9 @@ void World::changeTiles2(const Vec2 &posPlayer, const Vec2 charactersPos[2][5], 
                     }
                 }
                 if (c2 == y - range + 2) {
-                    cocos2d::log("Pos43 s %d", x - range + 2);
-                    cocos2d::log("Pos43 s %d", x);
-                    cocos2d::log("Pos43 s %d", y);
+                    //cocos2d::log("Pos43 s %d", x - range + 2);
+                    //cocos2d::log("Pos43 s %d", x);
+                    //cocos2d::log("Pos43 s %d", y);
                     int i = -3;
                     for (int c3 = 0; c3 < 5; c3++) {
                         i++;
@@ -419,8 +333,8 @@ void World::changeTiles2(const Vec2 &posPlayer, const Vec2 charactersPos[2][5], 
                     }
                 }
                 if (c2 == y - range + 3) {
-                    cocos2d::log("Pos58 s %d", x);
-                    cocos2d::log("Pos58 s %d", y);
+                    //cocos2d::log("Pos58 s %d", x);
+                    //cocos2d::log("Pos58 s %d", y);
                     int i = -4;
                     for (int c3 = 0; c3 < 7; c3++) {
                         i++;
@@ -451,8 +365,8 @@ void World::changeTiles2(const Vec2 &posPlayer, const Vec2 charactersPos[2][5], 
                 }
             }
             if(c2 == y){
-                cocos2d::log("Pos6 s %d", x);
-                cocos2d::log("Pos6 s %d", y);
+                //cocos2d::log("Pos6 s %d", x);
+                //cocos2d::log("Pos6 s %d", y);
                 int i = -range-1;
                 for (int c3=0; c3 < range*2;c3++) {
                     i++;
@@ -490,8 +404,8 @@ void World::changeTiles2(const Vec2 &posPlayer, const Vec2 charactersPos[2][5], 
             }
             if(c2 > y){
                 if (c2 == y + range) {
-                    cocos2d::log("Pos71 s %d", x);
-                    cocos2d::log("Pos71 s %d", y);
+                    //cocos2d::log("Pos71 s %d", x);
+                    //cocos2d::log("Pos71 s %d", y);
                     if (x - 1 > -1 && x - 1 < 8 && y - 1 + range > -1 &&
                         y - 1 + range < 8 && weight_map[y - 1 + range][x - 1]-1 < 1) {
                         bool pasa = false;
@@ -518,8 +432,8 @@ void World::changeTiles2(const Vec2 &posPlayer, const Vec2 charactersPos[2][5], 
                     }
                 }
                 if (c2 == y + range - 1) {
-                    cocos2d::log("Pos72 s %d", x);
-                    cocos2d::log("Pos72 s %d", y);
+                    //cocos2d::log("Pos72 s %d", x);
+                    //cocos2d::log("Pos72 s %d", y);
                     int i = -2;
                     for (int c3 = 0; c3 < 3; c3++) {
                         i++;
@@ -549,9 +463,9 @@ void World::changeTiles2(const Vec2 &posPlayer, const Vec2 charactersPos[2][5], 
                     }
                 }
                 if (c2 == y + range - 2) {
-                    cocos2d::log("Pos73 s %d", x - range + 2);
-                    cocos2d::log("Pos73 s %d", x);
-                    cocos2d::log("Pos73 s %d", y);
+                    //cocos2d::log("Pos73 s %d", x - range + 2);
+                    //cocos2d::log("Pos73 s %d", x);
+                    //cocos2d::log("Pos73 s %d", y);
                     int i = -3;
                     for (int c3 = 0; c3 < 5; c3++) {
                         i++;
@@ -581,8 +495,8 @@ void World::changeTiles2(const Vec2 &posPlayer, const Vec2 charactersPos[2][5], 
                     }
                 }
                 if (c2 == y + range - 3) {
-                    cocos2d::log("Pos74 s %d", x);
-                    cocos2d::log("Pos74 s %d", y);
+                    //cocos2d::log("Pos74 s %d", x);
+                    //cocos2d::log("Pos74 s %d", y);
                     int i = -4;
                     for (int c3 = 0; c3 < 7; c3++) {
                         i++;
